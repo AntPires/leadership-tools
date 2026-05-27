@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leadership Tools — Ladder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #141414;
+      --light: #E6E6E6;
+      --bg: #F6F6F4;
+      --white: #FFFFFF;
+      --muted: #888;
+      --border: #EBEBEB;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--charcoal);
+      overflow: hidden;
+    }
+
+    /* ── APP SHELL ──────────────────────────── */
+    .app { display: flex; height: 100vh; }
+
+    /* ── SIDEBAR ─────────────────────────────── */
+    .sidebar {
+      width: 232px;
+      flex-shrink: 0;
+      background: var(--charcoal);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 24px;
+    }
+
+    .sidebar-brand {
+      padding: 0 20px 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .sidebar-tagline {
+      padding: 0 20px 28px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.02em;
+    }
+
+    .sidebar-section {
+      padding: 0 20px 8px;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding: 0 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px;
+      border-radius: 7px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.38);
+      cursor: default;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .nav-item.active {
+      background: rgba(255,255,255,0.09);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .nav-icon { flex-shrink: 0; width: 15px; height: 15px; }
+
+    .nav-tag {
+      margin-left: auto;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.18);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 20px 20px 0;
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.15);
+    }
+
+    /* ── MAIN ────────────────────────────────── */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* ── HEADER ──────────────────────────────── */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .header-left { display: flex; align-items: baseline; gap: 12px; }
+
+    .header h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+    .header-sub { font-size: 12px; color: #bbb; }
+
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .header-right label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+    .designer-input {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--charcoal);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 11px;
+      width: 190px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .designer-input:focus { border-color: var(--charcoal); }
+    .designer-input::placeholder { color: #ccc; font-weight: 400; }
+
+    .reset-btn {
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .reset-btn:hover { border-color: #aaa; color: var(--charcoal); }
+
+    /* ── CONTENT ─────────────────────────────── */
+    .content { flex: 1; display: flex; min-height: 0; overflow: hidden; }
+
+    /* ── CHART AREA ──────────────────────────── */
+    .chart-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 20px;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+    }
+
+    .radar-top {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .chart-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding-top: 6px;
+    }
+
+    /* ── MODE TOGGLE ─────────────────────────── */
+    .mode-toggle {
+      display: flex;
+      gap: 3px;
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 3px;
+    }
+
+    .mode-btn {
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #aaa;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.12s, color 0.12s, box-shadow 0.12s;
+      white-space: nowrap;
+    }
+
+    .mode-btn.active {
+      background: var(--white);
+      color: var(--charcoal);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+
+    /* ── RADAR IDENTITY (name + date) ────────── */
+    .radar-identity {
+      text-align: center;
+      margin-bottom: 16px;
+      min-height: 28px;
+    }
+
+    .radar-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--charcoal);
+      letter-spacing: -0.04em;
+      display: none;
+    }
+
+    .radar-date {
+      font-size: 10.5px;
+      color: #bbb;
+      margin-top: 1px;
+      display: none;
+    }
+
+    /* ── LEVEL LEGEND ────────────────────────── */
+    .level-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px 13px;
+      margin-top: 10px;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      color: #bbb;
+      font-weight: 500;
+    }
+
+    .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+    #radar-svg { width: 100%; max-width: 430px; height: auto; display: block; }
+
+    .chart-hint {
+      margin-top: 10px;
+      font-size: 10px;
+      color: #ccc;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ── DETAIL PANEL ────────────────────────── */
+    .detail-panel { flex: 1; overflow-y: auto; background: var(--bg); }
+
+    .detail-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 320px;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .detail-placeholder p {
+      font-size: 13px;
+      margin-top: 16px;
+      line-height: 1.7;
+      color: #c8c8c8;
+    }
+
+    .detail-inner { padding: 24px 26px 40px; max-width: 640px; }
+
+    .pillar-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .pillar-title { font-size: 24px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+
+    .pillar-badges {
+      display: flex;
+      gap: 5px;
+      flex-shrink: 0;
+      margin-top: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .badge-atual {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--charcoal);
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .badge-foco {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--charcoal);
+      background: transparent;
+      border: 1.5px dashed var(--charcoal);
+      padding: 2.5px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .pillar-desc { font-size: 12.5px; line-height: 1.75; color: #777; margin-bottom: 16px; }
+
+    /* ── PROGRESSING TOGGLE ──────────────────── */
+    .progressing-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      margin-bottom: 18px;
+      cursor: pointer;
+      transition: border-color 0.14s;
+      user-select: none;
+    }
+
+    .progressing-row:hover { border-color: #ccc; }
+    .progressing-row.on { border-color: var(--charcoal); }
+
+    .progressing-row-left { display: flex; flex-direction: column; gap: 2px; }
+    .progressing-label { font-size: 12.5px; font-weight: 600; color: var(--charcoal); }
+    .progressing-sub { font-size: 11px; color: #aaa; }
+
+    .toggle-sw {
+      width: 34px;
+      height: 19px;
+      background: #D8D8D8;
+      border-radius: 10px;
+      position: relative;
+      transition: background 0.18s;
+      flex-shrink: 0;
+    }
+
+    .toggle-sw::after {
+      content: '';
+      position: absolute;
+      width: 13px;
+      height: 13px;
+      background: white;
+      border-radius: 50%;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.18s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .toggle-sw.on { background: var(--charcoal); }
+    .toggle-sw.on::after { transform: translateX(15px); }
+
+    /* ── LEVELS LABEL ────────────────────────── */
+    .levels-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 10px;
+    }
+
+    /* ── LEVEL CARDS (read-only) ─────────────── */
+    .level-cards { display: flex; flex-direction: column; gap: 6px; }
+
+    .level-card {
+      background: var(--white);
+      border: 1.5px solid transparent;
+      border-radius: 9px;
+      padding: 11px 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .level-card.has-atual { border-left: 3px solid var(--charcoal); }
+    .level-card.has-foco { border-color: rgba(20,20,20,0.35); border-style: dashed; }
+    .level-card.has-atual.has-foco { border-left: 3px solid var(--charcoal); border-style: solid; border-color: var(--charcoal); }
+
+    .level-card-top {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 5px;
+    }
+
+    .level-n-badge {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--light);
+      color: var(--charcoal);
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+
+    .level-name { font-size: 12.5px; font-weight: 600; color: var(--charcoal); }
+
+    .level-desc { font-size: 11.5px; line-height: 1.65; color: #888; }
+
+    .pdi-note {
+      margin-top: 20px;
+      font-size: 11px;
+      color: #bbb;
+      line-height: 1.6;
+      padding: 10px 12px;
+      background: var(--white);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">Leadership Tools</div>
+    <div class="sidebar-tagline">Wave Design</div>
+    <div class="sidebar-section">Ferramentas</div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M5 8.5l2 2L11 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Ladder
+      </a>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <rect x="2.5" y="2.5" width="11" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M5 5.5h6M5 8h4M5 10.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        PDI
+        <span class="nav-tag">em breve</span>
+      </div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2L9.6 5.4 13.4 6 10.7 8.6 11.4 12.4 8 10.7 4.6 12.4 5.3 8.6 2.6 6 6.4 5.4Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+        </svg>
+        Moving Motivators
+        <span class="nav-tag">em breve</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">Design · Wave &copy; 2026</div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1>Design Ladder</h1>
+        <span class="header-sub">Mapeie o nível de atuação e os focos de evolução por pilar</span>
+      </div>
+      <div class="header-right">
+        <label for="designer-name">Designer</label>
+        <input class="designer-input" id="designer-name" type="text" placeholder="Nome do designer" autocomplete="off" oninput="updateRadarIdentity()" />
+        <button class="reset-btn" onclick="resetLevels()">Reiniciar</button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="chart-area">
+
+        <div class="radar-top">
+          <div class="radar-identity">
+            <div class="radar-name" id="radar-name"></div>
+            <div class="radar-date" id="radar-date"></div>
+          </div>
+          <svg id="radar-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="level-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#EAEAEA;border:1.5px solid #D0D0D0"></div>N1 Pratica</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#BDBDBD"></div>N2 Executa</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#8C8C8C"></div>N3 Eleva</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4A4A4A"></div>N4 Direciona</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#141414"></div>N5 Expande</div>
+          </div>
+        </div>
+
+        <div class="chart-footer">
+          <div class="mode-toggle">
+            <button id="mode-btn-atual" class="mode-btn active" onclick="setEditMode('atual')">
+              <svg width="9" height="9" viewBox="0 0 9 9">
+                <circle cx="4.5" cy="4.5" r="4" fill="#141414"/>
+              </svg>
+              Status Atual
+            </button>
+            <button id="mode-btn-foco" class="mode-btn" onclick="setEditMode('foco')">
+              <svg width="9" height="9" viewBox="0 0 9 9">
+                <circle cx="4.5" cy="4.5" r="3.2" fill="none" stroke="#141414" stroke-width="1.5" stroke-dasharray="2.8 2"/>
+              </svg>
+              Foco de desenvolvimento
+            </button>
+          </div>
+          <p class="chart-hint" id="chart-hint">Clique nos anéis para definir o Status Atual · Clique no nome do pilar para marcar como Em evolução</p>
+        </div>
+
+      </div>
+
+      <!-- Detail Panel (read-only content) -->
+      <div class="detail-panel" id="detail-panel">
+        <div class="detail-placeholder">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="25" stroke="#E0E0E0" stroke-width="2"/>
+            <path d="M20 28l5.5 6L36 21" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p>Selecione um pilar no radar<br>para explorar as competências<br>e os níveis de atuação.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════════════════
+
+const PILLARS = [
+  {
+    id: 'experiencia',
+    name: 'Experiência',
+    description: 'Abrange a capacidade de transformar problemas em soluções claras, utilizáveis e coerentes ao longo de fluxos, interfaces e jornadas. Envolve arquitetura da informação, interação, design visual, escrita para interface e construção de protótipos. Contribui para aumentar clareza, eficiência e qualidade das soluções entregues, reduzindo fricções e inconsistências ao longo do serviço.',
+    levels: [
+      { n: 'N1', name: 'Pratica', desc: 'Desenvolve telas e fluxos com base em direcionamento claro. Aplica padrões existentes e boas práticas de usabilidade. Resolve estados básicos (erro, vazio, carregamento) e organiza entregas de forma consistente.' },
+      { n: 'N2', name: 'Executa', desc: 'Define fluxos ponta a ponta para problemas bem delimitados. Considera diferentes cenários de uso e restrições técnicas. Equilibra clareza, viabilidade e objetivos do projeto. Propõe alternativas fundamentadas.' },
+      { n: 'N3', name: 'Eleva', desc: 'Identifica inconsistências entre fluxos e antecipa impactos sistêmicos. Melhora a coerência das soluções e apoia outros designers em decisões complexas de experiência. Eleva a qualidade do que o time entrega.' },
+      { n: 'N4', name: 'Direciona', desc: 'Define padrões de qualidade para a experiência nos produtos da Wave. Orienta decisões estruturais e garante coerência entre múltiplos contextos. Influencia a forma como o time constrói soluções.' },
+      { n: 'N5', name: 'Expande', desc: 'Estabelece a visão de experiência da Wave como referência além do time. Cria frameworks, métodos ou abordagens que impactam como a organização pensa e entrega experiência.' }
+    ]
+  },
+  {
+    id: 'sistemas',
+    name: 'Sistemas',
+    description: 'Abrange a capacidade de organizar, estruturar e manter consistência nas soluções ao longo do tempo e entre diferentes produtos e contextos. Envolve componentização, padrões reutilizáveis, documentação, handoff técnico e integração com arquitetura. Contribui para aumentar eficiência, reduzir retrabalho e garantir coerência à medida que os serviços evoluem e escalam.',
+    levels: [
+      { n: 'N1', name: 'Pratica', desc: 'Utiliza corretamente padrões, componentes e diretrizes existentes. Mantém consistência nas entregas e respeita decisões estruturais previamente definidas. Documenta e realiza handoff seguindo processos estabelecidos.' },
+      { n: 'N2', name: 'Executa', desc: 'Identifica recorrências e propõe organização local de padrões. Contribui para evolução de componentes e documentação. Atua com atenção à consistência entre fluxos e módulos relacionados.' },
+      { n: 'N3', name: 'Eleva', desc: 'Organiza sistemas reutilizáveis de forma intencional. Antecipa impactos técnicos e de consistência entre produtos. Atua como referência na integração entre design e engenharia. Eleva o nível de organização sistêmica do time.' },
+      { n: 'N4', name: 'Direciona', desc: 'Define diretrizes estruturais para sistemas e padrões na Wave. Garante coerência entre múltiplos produtos e contextos. Influencia decisões arquiteturais e estabelece bases duráveis para evolução do design.' },
+      { n: 'N5', name: 'Expande', desc: 'Cria infraestrutura de design que escala além dos projetos atuais. Estabelece padrões, ferramentas ou frameworks sistêmicos que impactam a organização e podem ser referência para novos produtos e contextos.' }
+    ]
+  },
+  {
+    id: 'estrategia',
+    name: 'Estratégia',
+    description: 'Abrange a capacidade de conectar decisões de design a objetivos estratégicos, métricas e prioridades do negócio. Envolve entendimento de roadmap, análise de impacto, acompanhamento de resultados e contribuição ativa na evolução das soluções em produção. Contribui para que o design gere valor mensurável e esteja alinhado às prioridades estratégicas da Wave.',
+    levels: [
+      { n: 'N1', name: 'Pratica', desc: 'Compreende o contexto do que está sendo desenvolvido e executa soluções alinhadas ao direcionamento definido. Demonstra interesse em entender objetivos e métricas relacionadas ao projeto.' },
+      { n: 'N2', name: 'Executa', desc: 'Propõe melhorias com base em dados, feedbacks e aprendizados de uso. Considera impacto nas métricas ao tomar decisões de experiência. Participa ativamente das discussões de priorização.' },
+      { n: 'N3', name: 'Eleva', desc: 'Conecta decisões de design a objetivos estratégicos e indicadores de negócio. Estrutura argumentos com base em impacto e viabilidade. Influencia discussões de roadmap e apoia outros designers a pensarem com visão de negócio.' },
+      { n: 'N4', name: 'Direciona', desc: 'Atua na definição de prioridades e caminhos estratégicos. Orienta decisões estruturais com base em impacto organizacional. Garante alinhamento entre design, produto e objetivos da empresa.' },
+      { n: 'N5', name: 'Expande', desc: 'Posiciona design como disciplina estratégica na organização. Influencia como a empresa define prioridades, mede resultados e toma decisões de produto. Cria pontes entre design e outras áreas de negócio que transcendem projetos individuais.' }
+    ]
+  },
+  {
+    id: 'influencia',
+    name: 'Influência',
+    description: 'Abrange a capacidade de ampliar impacto por meio de colaboração, comunicação e liderança técnica. Envolve facilitação, alinhamento entre áreas, mentoria, representação do design em fóruns estratégicos e contribuição para a cultura e práticas do time. Contribui para aumentar a clareza nas decisões, reduzir ruídos entre times e fortalecer a presença do design na organização.',
+    levels: [
+      { n: 'N1', name: 'Pratica', desc: 'Colabora de forma ativa nas discussões do time. Comunica decisões com clareza básica e mantém abertura para feedback. Contribui para um ambiente de trabalho respeitoso e produtivo.' },
+      { n: 'N2', name: 'Executa', desc: 'Conduz discussões e alinhamentos em projetos sob sua responsabilidade. Organiza workshops ou rituais quando necessário. Contribui para reduzir ambiguidades e manter o time alinhado.' },
+      { n: 'N3', name: 'Eleva', desc: 'Atua como referência técnica nas discussões. Apoia o desenvolvimento de outros designers. Representa o design em fóruns interdisciplinares e contribui para decisões mais amplas. Eleva a qualidade da colaboração no time.' },
+      { n: 'N4', name: 'Direciona', desc: 'Exerce liderança consolidada, técnica e/ou de pessoas. Representa o design em decisões estratégicas. Influencia cultura, práticas e posicionamento do design dentro da organização.' },
+      { n: 'N5', name: 'Expande', desc: 'Amplia a influência do design para além das fronteiras da disciplina. Constrói pontes com outras áreas que mudam como a organização colabora e toma decisões. É referência interna e potencialmente externa à empresa.' }
+    ]
+  },
+  {
+    id: 'descoberta',
+    name: 'Descoberta',
+    description: 'Abrange a capacidade de compreender problemas, comportamentos e oportunidades antes da definição de soluções. Inclui pesquisa qualitativa e quantitativa, análise de dados, leitura de mercado, mapeamento de jornadas e formulação de hipóteses.',
+    levels: [
+      { n: 'N1', name: 'Pratica', desc: 'Participa de pesquisas e levantamentos com orientação clara. Apoia entrevistas, testes e análises básicas. Organiza dados e registra aprendizados de forma estruturada.' },
+      { n: 'N2', name: 'Executa', desc: 'Conduz pesquisas de baixa a média complexidade com autonomia. Interpreta dados qualitativos e quantitativos, identifica padrões e conecta descobertas com decisões de experiência. Questiona suposições e valida hipóteses com método.' },
+      { n: 'N3', name: 'Eleva', desc: 'Define abordagens adequadas de descoberta para cada problema. Conecta insights a direcionamentos de produto. Apoia outros designers na estruturação de pesquisas e sínteses. Eleva o nível de análise nas discussões do time.' },
+      { n: 'N4', name: 'Direciona', desc: 'Estabelece direcionamento estratégico a partir de evidências consolidadas. Estrutura práticas e critérios de investigação recorrentes. Conecta pesquisa, métricas e contexto de mercado para fundamentar decisões relevantes.' },
+      { n: 'N5', name: 'Expande', desc: 'Define como a organização usa evidências para tomar decisões. Cria métodos, frameworks ou práticas de descoberta que transcendem o time de design e influenciam outras disciplinas.' }
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+
+let selectedPillar = null;
+let editMode = 'atual'; // 'atual' | 'foco'
+
+const currentLevels  = Object.fromEntries(PILLARS.map(p => [p.id, 0]));
+const targetLevels   = Object.fromEntries(PILLARS.map(p => [p.id, 0]));
+const progressingSet = new Set();
+
+// ═══════════════════════════════════════════════════════════
+//  CHART GEOMETRY
+// ═══════════════════════════════════════════════════════════
+
+const CX = 300, CY = 300;
+const MAX_R = 190;
+const N_LEVELS = 5;
+const INNER_R = 70; // N1 starts at 37% of MAX_R — avoids the "tiny polygon" problem for junior designers
+const LABEL_R = MAX_R + 46;
+
+function levelRadius(l) {
+  if (l === 0) return 0;
+  return INNER_R + (MAX_R - INNER_R) * (l - 1) / (N_LEVELS - 1);
+}
+
+const ANGLES = PILLARS.map((_, i) => -Math.PI / 2 + (2 * Math.PI * i) / PILLARS.length);
+
+function polar(angle, r) {
+  return { x: CX + r * Math.cos(angle), y: CY + r * Math.sin(angle) };
+}
+
+const NS = 'http://www.w3.org/2000/svg';
+
+function svgEl(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  BUILD RADAR
+// ═══════════════════════════════════════════════════════════
+
+function buildRadar() {
+  const svg = document.getElementById('radar-svg');
+  svg.innerHTML = '';
+
+  // Concentric dashed rings
+  for (let l = 1; l <= N_LEVELS; l++) {
+    svgEl('circle', {
+      cx: CX, cy: CY, r: levelRadius(l),
+      fill: 'none', stroke: '#E2E2E2', 'stroke-width': '1', 'stroke-dasharray': '4 3'
+    }, svg);
+  }
+
+
+  // Axis lines — thicker for progressing pillars
+  ANGLES.forEach((angle, i) => {
+    const isProg = progressingSet.has(PILLARS[i].id);
+    const end = polar(angle, MAX_R);
+    svgEl('line', {
+      x1: CX, y1: CY, x2: end.x, y2: end.y,
+      stroke: isProg ? '#888' : '#D5D5D5',
+      'stroke-width': isProg ? '2' : '1'
+    }, svg);
+
+    // Progressing indicator: small filled dot at the tip of the axis line
+    if (isProg) {
+      svgEl('circle', {
+        cx: end.x, cy: end.y, r: '4.5',
+        fill: '#141414', 'pointer-events': 'none'
+      }, svg);
+    }
+  });
+
+  // Current polygon (solid fill)
+  const hasAnyCurrent = PILLARS.some(p => currentLevels[p.id] > 0);
+  if (hasAnyCurrent) {
+    const points = PILLARS.map((p, i) => {
+      const { x, y } = polar(ANGLES[i], levelRadius(currentLevels[p.id]));
+      return `${x},${y}`;
+    }).join(' ');
+    svgEl('polygon', {
+      points, fill: 'rgba(20,20,20,0.09)', stroke: '#141414',
+      'stroke-width': '2', 'stroke-linejoin': 'round', 'pointer-events': 'none'
+    }, svg);
+  }
+
+  // Foco polygon (dashed outline)
+  const hasAnyTarget = PILLARS.some(p => targetLevels[p.id] > 0);
+  if (hasAnyTarget) {
+    const points = PILLARS.map((p, i) => {
+      const { x, y } = polar(ANGLES[i], levelRadius(targetLevels[p.id]));
+      return `${x},${y}`;
+    }).join(' ');
+    svgEl('polygon', {
+      points, fill: 'none', stroke: '#141414',
+      'stroke-width': '1.5', 'stroke-dasharray': '7 4',
+      'stroke-linejoin': 'round', 'pointer-events': 'none'
+    }, svg);
+  }
+
+  // Clickable level zones
+  PILLARS.forEach((pillar, i) => {
+    const angle = ANGLES[i];
+    for (let l = 1; l <= N_LEVELS; l++) {
+      const { x, y } = polar(angle, levelRadius(l));
+      const isCurrentLevel = currentLevels[pillar.id] === l;
+      const isTargetLevel  = targetLevels[pillar.id] === l;
+
+      const g = svgEl('g', { cursor: 'pointer' }, svg);
+      const hoverCircle = svgEl('circle', {
+        cx: x, cy: y, r: '9',
+        fill: 'rgba(20,20,20,0)', stroke: 'rgba(20,20,20,0)', 'stroke-width': '1.5'
+      }, g);
+      svgEl('circle', { cx: x, cy: y, r: '16', fill: 'transparent', stroke: 'none' }, g);
+
+      const title = svgEl('title', {}, g);
+      title.textContent = `${pillar.name}: ${pillar.levels[l-1].n} — ${pillar.levels[l-1].name}`;
+
+      g.addEventListener('mouseenter', () => {
+        const isActive = editMode === 'atual' ? isCurrentLevel : isTargetLevel;
+        if (!isActive) {
+          hoverCircle.setAttribute('fill', 'rgba(20,20,20,0.08)');
+          hoverCircle.setAttribute('stroke', '#888');
+        }
+      });
+      g.addEventListener('mouseleave', () => {
+        hoverCircle.setAttribute('fill', 'rgba(20,20,20,0)');
+        hoverCircle.setAttribute('stroke', 'rgba(20,20,20,0)');
+      });
+      g.addEventListener('click', () => {
+        if (editMode === 'atual') {
+          currentLevels[pillar.id] = isCurrentLevel ? 0 : l;
+        } else {
+          targetLevels[pillar.id] = isTargetLevel ? 0 : l;
+        }
+        selectedPillar = pillar.id;
+        buildRadar();
+        renderDetail();
+      });
+    }
+  });
+
+  // Current-level dots (filled)
+  if (hasAnyCurrent) {
+    PILLARS.forEach((p, i) => {
+      if (currentLevels[p.id] > 0) {
+        const { x, y } = polar(ANGLES[i], levelRadius(currentLevels[p.id]));
+        svgEl('circle', {
+          cx: x, cy: y, r: '5', fill: '#141414', stroke: '#fff', 'stroke-width': '2',
+          'pointer-events': 'none'
+        }, svg);
+      }
+    });
+  }
+
+  // Foco-level dots (open circles)
+  if (hasAnyTarget) {
+    PILLARS.forEach((p, i) => {
+      if (targetLevels[p.id] > 0) {
+        const { x, y } = polar(ANGLES[i], levelRadius(targetLevels[p.id]));
+        svgEl('circle', {
+          cx: x, cy: y, r: '5', fill: '#fff', stroke: '#141414', 'stroke-width': '2',
+          'pointer-events': 'none'
+        }, svg);
+      }
+    });
+  }
+
+  // Pillar labels — click toggles Em evolução ativa
+  PILLARS.forEach((pillar, i) => {
+    const angle = ANGLES[i];
+    const { x, y } = polar(angle, LABEL_R);
+    const cosA = Math.cos(angle);
+    const anchor = cosA < -0.25 ? 'end' : cosA > 0.25 ? 'start' : 'middle';
+    const isProg = progressingSet.has(pillar.id);
+
+    const g = svgEl('g', { cursor: 'pointer' }, svg);
+
+    const text = svgEl('text', {
+      x, y,
+      'text-anchor': anchor,
+      'dominant-baseline': 'middle',
+      'font-family': "'Plus Jakarta Sans', sans-serif",
+      'font-size': '14.5',
+      'font-weight': isProg ? '700' : '500',
+      fill: isProg ? '#141414' : '#999',
+      'letter-spacing': '-0.3'
+    }, g);
+    text.textContent = pillar.name;
+
+    g.addEventListener('mouseenter', () => {
+      text.setAttribute('fill', '#444');
+      text.setAttribute('font-weight', '600');
+    });
+    g.addEventListener('mouseleave', () => {
+      text.setAttribute('fill', isProg ? '#141414' : '#999');
+      text.setAttribute('font-weight', isProg ? '700' : '500');
+    });
+    g.addEventListener('click', () => selectPillar(pillar.id));
+  });
+
+  // Center dot
+  svgEl('circle', { cx: CX, cy: CY, r: '3', fill: '#D0D0D0', 'pointer-events': 'none' }, svg);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER DETAIL (read-only content)
+// ═══════════════════════════════════════════════════════════
+
+function renderDetail() {
+  const panel = document.getElementById('detail-panel');
+
+  if (!selectedPillar) {
+    panel.innerHTML = `
+      <div class="detail-placeholder">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="25" stroke="#E0E0E0" stroke-width="2"/>
+          <path d="M20 28l5.5 6L36 21" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p>Selecione um pilar no radar<br>para explorar as competências<br>e os níveis de atuação.</p>
+      </div>`;
+    return;
+  }
+
+  const pillar = PILLARS.find(p => p.id === selectedPillar);
+  const cLevel = currentLevels[selectedPillar];
+  const tLevel = targetLevels[selectedPillar];
+  const isProg = progressingSet.has(selectedPillar);
+  const cData  = cLevel > 0 ? pillar.levels[cLevel - 1] : null;
+  const tData  = tLevel > 0 ? pillar.levels[tLevel - 1] : null;
+
+  panel.innerHTML = `
+    <div class="detail-inner">
+      <div class="pillar-header">
+        <div class="pillar-title">${pillar.name}</div>
+        <div class="pillar-badges">
+          ${cData ? `<div class="badge-atual">${cData.n} · ${cData.name}</div>` : ''}
+          ${tData ? `<div class="badge-foco">${tData.n} · ${tData.name}</div>` : ''}
+        </div>
+      </div>
+      <p class="pillar-desc">${pillar.description}</p>
+
+      <div class="progressing-row ${isProg ? 'on' : ''}" onclick="toggleProgressing('${pillar.id}')">
+        <div class="progressing-row-left">
+          <div class="progressing-label">Em evolução ativa</div>
+          <div class="progressing-sub">Marque se este pilar está em foco de desenvolvimento agora</div>
+        </div>
+        <div class="toggle-sw ${isProg ? 'on' : ''}"></div>
+      </div>
+
+      <div class="levels-label">Níveis de atuação</div>
+      <div class="level-cards">
+        ${pillar.levels.map((level, idx) => {
+          const isC = cLevel === idx + 1;
+          const isT = tLevel === idx + 1;
+          let cardClass = '';
+          if (isC && isT) cardClass = 'has-atual has-foco';
+          else if (isC)   cardClass = 'has-atual';
+          else if (isT)   cardClass = 'has-foco';
+          return `
+            <div class="level-card ${cardClass}">
+              <div class="level-card-top">
+                <span class="level-n-badge">${level.n}</span>
+                <span class="level-name">${level.name}</span>
+              </div>
+              <div class="level-desc">${level.desc}</div>
+            </div>`;
+        }).join('')}
+      </div>
+
+      <div class="pdi-note">
+        Os focos de desenvolvimento e os pilares em evolução alimentarão o PDI quando disponível.
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ACTIONS
+// ═══════════════════════════════════════════════════════════
+
+function selectPillar(id) {
+  selectedPillar = id;
+  buildRadar();
+  renderDetail();
+}
+
+function toggleProgressing(pillarId) {
+  progressingSet.has(pillarId) ? progressingSet.delete(pillarId) : progressingSet.add(pillarId);
+  buildRadar();
+  renderDetail();
+}
+
+function setEditMode(mode) {
+  editMode = mode;
+  document.getElementById('mode-btn-atual').classList.toggle('active', mode === 'atual');
+  document.getElementById('mode-btn-foco').classList.toggle('active', mode === 'foco');
+  const hint = document.getElementById('chart-hint');
+  hint.textContent = mode === 'atual'
+    ? 'Clique nos anéis para definir o Status Atual · Clique no nome do pilar para ver as descrições'
+    : 'Clique nos anéis para definir o Foco de desenvolvimento · Clique no nome do pilar para ver as descrições';
+}
+
+function resetLevels() {
+  PILLARS.forEach(p => { currentLevels[p.id] = 0; targetLevels[p.id] = 0; });
+  progressingSet.clear();
+  selectedPillar = null;
+  buildRadar();
+  renderDetail();
+}
+
+function updateRadarIdentity() {
+  const name = document.getElementById('designer-name').value.trim();
+  const nameEl = document.getElementById('radar-name');
+  const dateEl = document.getElementById('radar-date');
+
+  nameEl.textContent = name;
+  nameEl.style.display = name ? 'block' : 'none';
+
+  const monthYear = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  dateEl.textContent = monthYear;
+  dateEl.style.display = name ? 'block' : 'none';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+
+buildRadar();
+</script>
+</body>
+</html>
