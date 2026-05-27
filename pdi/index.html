@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leadership Tools — PDI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #141414;
+      --light: #E6E6E6;
+      --bg: #F6F6F4;
+      --white: #FFFFFF;
+      --muted: #888;
+      --border: #EBEBEB;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--charcoal);
+      overflow: hidden;
+    }
+
+    /* ── APP SHELL ──────────────────────────── */
+    .app { display: flex; height: 100vh; }
+
+    /* ── SIDEBAR ─────────────────────────────── */
+    .sidebar {
+      width: 60px;
+      flex-shrink: 0;
+      background: var(--charcoal);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0 24px;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 16px;
+      margin-bottom: 8px;
+      width: 100%;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 8px 0;
+    }
+
+    .nav-item {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.35);
+      cursor: default;
+      user-select: none;
+      text-decoration: none;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .nav-item.active {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .nav-item:not(.active):hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .nav-icon { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .nav-item::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(20,20,20,0.92);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      z-index: 100;
+    }
+
+    .nav-item:hover::after { opacity: 1; }
+
+    /* ── MAIN ────────────────────────────────── */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* ── HEADER ──────────────────────────────── */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .header-left { display: flex; align-items: baseline; gap: 12px; }
+    .header h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+    .header-sub { font-size: 12px; color: #bbb; }
+
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .header-right label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+    .liderado-input {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--charcoal);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 11px;
+      width: 190px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .liderado-input:focus { border-color: var(--charcoal); }
+    .liderado-input::placeholder { color: #ccc; font-weight: 400; }
+
+    .reset-btn {
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .reset-btn:hover { border-color: #aaa; color: var(--charcoal); }
+
+    /* ── CONTENT ─────────────────────────────── */
+    .content { flex: 1; display: flex; min-height: 0; overflow: hidden; }
+
+    /* ── LEFT COLUMN — Perfil atual ──────────── */
+    .pdi-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 28px;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* ── RIGHT COLUMN — Focos + Ações + Papel ── */
+    .pdi-right {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg);
+      padding: 20px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── SECTION LABELS ──────────────────────── */
+    .section-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    /* ── PERFIL ATUAL ────────────────────────── */
+    .perfil-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .perfil-textarea {
+      flex: 1;
+      font-family: inherit;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--charcoal);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      resize: none;
+      outline: none;
+      transition: border-color 0.15s;
+      min-height: 200px;
+    }
+
+    .perfil-textarea:focus { border-color: var(--charcoal); }
+    .perfil-textarea::placeholder { color: #ccc; }
+
+    /* ── PDI SECTION CARDS ───────────────────── */
+    .pdi-section {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 11px;
+      padding: 16px 18px 14px;
+    }
+
+    .pdi-section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .pdi-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--charcoal);
+      letter-spacing: -0.01em;
+    }
+
+    .focos-counter {
+      font-size: 10px;
+      font-weight: 600;
+      color: #ccc;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── LIST ITEMS ──────────────────────────── */
+    .list-items { display: flex; flex-direction: column; gap: 5px; }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .list-bullet {
+      font-size: 11px;
+      color: var(--charcoal);
+      flex-shrink: 0;
+      width: 16px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .list-bullet.muted { color: #aaa; }
+
+    .list-input {
+      flex: 1;
+      font-family: inherit;
+      font-size: 12.5px;
+      color: var(--charcoal);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      padding: 6px 10px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .list-input:focus { border-color: var(--charcoal); background: var(--white); }
+    .list-input::placeholder { color: #ccc; }
+
+    .remove-btn {
+      font-size: 15px;
+      line-height: 1;
+      color: #d0d0d0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 5px;
+      transition: color 0.12s;
+      flex-shrink: 0;
+    }
+
+    .remove-btn:hover { color: var(--charcoal); }
+
+    /* ── ADD BUTTON ──────────────────────────── */
+    .add-btn {
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #aaa;
+      background: none;
+      border: 1.5px dashed #ddd;
+      border-radius: 7px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: border-color 0.14s, color 0.14s;
+      text-align: left;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .add-btn:hover { border-color: #aaa; color: var(--charcoal); }
+    .add-btn:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-bcotransp.svg" alt="Wave" width="28" height="28">
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="../ladder/" data-tooltip="Ladder">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M2 14 L2 10 L6 10 L6 6 L10 6 L10 2 L14 2"
+            stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="nav-item active" href="#" data-tooltip="PDI">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2L9.6 5.4 13.4 6 10.7 8.6 11.4 12.4 8 10.7 4.6 12.4 5.3 8.6 2.6 6 6.4 5.4Z"
+            stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <div class="nav-item" data-tooltip="Moving Motivators">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="6.2" cy="7.2" r="0.7" fill="currentColor"/>
+          <circle cx="9.8" cy="7.2" r="0.7" fill="currentColor"/>
+          <path d="M5.5 10 Q8 12 10.5 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1>PDI</h1>
+        <span class="header-sub">Plano de Desenvolvimento Individual</span>
+      </div>
+      <div class="header-right">
+        <label for="liderado-name">Liderado</label>
+        <input class="liderado-input" id="liderado-name" type="text" placeholder="Nome do liderado" autocomplete="off" />
+        <button class="reset-btn" onclick="resetPDI()">Reiniciar</button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- Left: Perfil atual -->
+      <div class="pdi-left">
+        <div class="perfil-label">Perfil atual</div>
+        <textarea
+          class="perfil-textarea"
+          id="perfil-textarea"
+          placeholder="Síntese da pessoa: impacto atual, pontos fortes e desafios identificados no D1. Considere Ladder, motivadores e contexto do momento…"
+        ></textarea>
+      </div>
+
+      <!-- Right: Focos + Ações + Papel do líder -->
+      <div class="pdi-right">
+
+        <!-- Focos do ciclo -->
+        <div class="pdi-section">
+          <div class="pdi-section-header">
+            <div class="pdi-section-title">Focos do ciclo</div>
+            <span class="focos-counter" id="focos-counter">1 / 3</span>
+          </div>
+          <div class="list-items" id="focos-list"></div>
+          <button class="add-btn" id="focos-add-btn" onclick="addFoco()">+ Adicionar foco</button>
+        </div>
+
+        <!-- Ações internas -->
+        <div class="pdi-section">
+          <div class="pdi-section-header">
+            <div class="pdi-section-title">Ações internas</div>
+          </div>
+          <div class="list-items" id="acoes-list"></div>
+          <button class="add-btn" onclick="addAcao()">+ Adicionar ação</button>
+        </div>
+
+        <!-- Papel do líder -->
+        <div class="pdi-section">
+          <div class="pdi-section-header">
+            <div class="pdi-section-title">Papel do líder</div>
+          </div>
+          <div class="list-items" id="papel-list"></div>
+          <button class="add-btn" onclick="addPapel()">+ Adicionar compromisso</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const MAX_FOCOS = 3;
+
+// ── Generic list item builder ─────────────────────────────
+
+function createItem(listId, bullet, bulletClass, placeholder, removeFn) {
+  const list = document.getElementById(listId);
+  const item = document.createElement('div');
+  item.className = 'list-item';
+  item.innerHTML = `
+    <span class="list-bullet ${bulletClass}">${bullet}</span>
+    <input type="text" class="list-input" placeholder="${placeholder}" />
+    <button class="remove-btn" onclick="${removeFn}(this)" title="Remover">×</button>
+  `;
+  list.appendChild(item);
+  item.querySelector('input').focus();
+  return item;
+}
+
+function removeItem(btn, listId, afterRemove) {
+  const list = document.getElementById(listId);
+  const item = btn.closest('.list-item');
+  if (list.children.length > 1) {
+    item.remove();
+  } else {
+    item.querySelector('input').value = '';
+  }
+  if (afterRemove) afterRemove();
+}
+
+// ── Focos do ciclo ────────────────────────────────────────
+
+function addFoco() {
+  const list = document.getElementById('focos-list');
+  if (list.children.length >= MAX_FOCOS) return;
+  createItem('focos-list', '◆', '', 'Descreva o foco do ciclo…', 'removeFoco');
+  updateFocosCounter();
+}
+
+function removeFoco(btn) {
+  removeItem(btn, 'focos-list', updateFocosCounter);
+}
+
+function updateFocosCounter() {
+  const count = document.getElementById('focos-list').children.length;
+  document.getElementById('focos-counter').textContent = `${count} / ${MAX_FOCOS}`;
+  document.getElementById('focos-add-btn').disabled = count >= MAX_FOCOS;
+}
+
+// ── Ações internas ────────────────────────────────────────
+
+function addAcao() {
+  createItem('acoes-list', '→', 'muted', 'Descreva a ação…', 'removeAcao');
+}
+
+function removeAcao(btn) {
+  removeItem(btn, 'acoes-list', null);
+}
+
+// ── Papel do líder ────────────────────────────────────────
+
+function addPapel() {
+  createItem('papel-list', '○', '', 'Descreva o compromisso…', 'removePapel');
+}
+
+function removePapel(btn) {
+  removeItem(btn, 'papel-list', null);
+}
+
+// ── Reset ─────────────────────────────────────────────────
+
+function resetPDI() {
+  document.getElementById('liderado-name').value = '';
+  document.getElementById('perfil-textarea').value = '';
+  document.getElementById('focos-list').innerHTML = '';
+  document.getElementById('acoes-list').innerHTML = '';
+  document.getElementById('papel-list').innerHTML = '';
+  init();
+}
+
+// ── Init ──────────────────────────────────────────────────
+
+function init() {
+  addFoco();
+  addAcao();
+  addPapel();
+  // remove focus from the auto-focused inputs on init
+  document.querySelectorAll('.list-input').forEach(i => i.blur());
+}
+
+init();
+</script>
+</body>
+</html>
