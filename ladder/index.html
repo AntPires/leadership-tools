@@ -31,86 +31,82 @@
 
     /* ── SIDEBAR ─────────────────────────────── */
     .sidebar {
-      width: 232px;
+      width: 60px;
       flex-shrink: 0;
       background: var(--charcoal);
       display: flex;
       flex-direction: column;
-      padding: 28px 0 24px;
+      align-items: center;
+      padding: 20px 0 24px;
     }
 
-    .sidebar-brand {
-      padding: 0 20px 6px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-    }
-
-    .sidebar-tagline {
-      padding: 0 20px 28px;
-      font-size: 10px;
-      color: rgba(255,255,255,0.15);
-      letter-spacing: 0.02em;
-    }
-
-    .sidebar-section {
-      padding: 0 20px 8px;
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.18);
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 16px;
+      margin-bottom: 8px;
+      width: 100%;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     .sidebar-nav {
       display: flex;
       flex-direction: column;
-      gap: 1px;
-      padding: 0 10px;
+      align-items: center;
+      gap: 2px;
+      padding: 8px 0;
     }
 
     .nav-item {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      gap: 9px;
-      padding: 9px 12px;
-      border-radius: 7px;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.38);
+      justify-content: center;
+      color: rgba(255,255,255,0.35);
       cursor: default;
       user-select: none;
       text-decoration: none;
+      transition: background 0.12s, color 0.12s;
     }
 
     .nav-item.active {
-      background: rgba(255,255,255,0.09);
+      background: rgba(255,255,255,0.1);
       color: #fff;
+    }
+
+    .nav-item:not(.active):hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .nav-icon { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* Tooltip */
+    .nav-item::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(20,20,20,0.92);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11.5px;
       font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      z-index: 100;
     }
 
-    .nav-icon { flex-shrink: 0; width: 15px; height: 15px; }
-
-    .nav-tag {
-      margin-left: auto;
-      font-size: 8.5px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 2px 5px;
-      border-radius: 3px;
-      background: rgba(255,255,255,0.05);
-      color: rgba(255,255,255,0.18);
-    }
-
-    .sidebar-footer {
-      margin-top: auto;
-      padding: 20px 20px 0;
-      font-size: 10.5px;
-      color: rgba(255,255,255,0.15);
-    }
+    .nav-item:hover::after { opacity: 1; }
 
     /* ── MAIN ────────────────────────────────── */
     .main { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
@@ -461,34 +457,32 @@
 
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="sidebar-brand">Leadership Tools</div>
-    <div class="sidebar-tagline">Wave Design</div>
-    <div class="sidebar-section">Ferramentas</div>
+    <div class="sidebar-logo">
+      <img src="../assets/logo-bcotransp.svg" alt="Wave" width="28" height="28">
+    </div>
     <nav class="sidebar-nav">
-      <a class="nav-item active" href="#">
+      <a class="nav-item active" href="#" data-tooltip="Ladder">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M5 8.5l2 2L11 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 14 L2 10 L6 10 L6 6 L10 6 L10 2 L14 2"
+            stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Ladder
       </a>
-      <div class="nav-item">
+      <div class="nav-item" data-tooltip="PDI">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
-          <rect x="2.5" y="2.5" width="11" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
-          <path d="M5 5.5h6M5 8h4M5 10.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          <path d="M8 2L9.6 5.4 13.4 6 10.7 8.6 11.4 12.4 8 10.7 4.6 12.4 5.3 8.6 2.6 6 6.4 5.4Z"
+            stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
         </svg>
-        PDI
-        <span class="nav-tag">em breve</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" data-tooltip="Moving Motivators">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
-          <path d="M8 2L9.6 5.4 13.4 6 10.7 8.6 11.4 12.4 8 10.7 4.6 12.4 5.3 8.6 2.6 6 6.4 5.4Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="6.2" cy="7.2" r="0.7" fill="currentColor"/>
+          <circle cx="9.8" cy="7.2" r="0.7" fill="currentColor"/>
+          <path d="M5.5 10 Q8 12 10.5 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
         </svg>
-        Moving Motivators
-        <span class="nav-tag">em breve</span>
       </div>
     </nav>
-    <div class="sidebar-footer">Design · Wave &copy; 2026</div>
   </aside>
 
   <!-- Main -->
@@ -516,7 +510,7 @@
             <div class="radar-name" id="radar-name"></div>
             <div class="radar-date" id="radar-date"></div>
           </div>
-          <svg id="radar-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg"></svg>
+          <svg id="radar-svg" viewBox="-20 0 640 600" xmlns="http://www.w3.org/2000/svg"></svg>
           <div class="level-legend">
             <div class="legend-item"><div class="legend-dot" style="background:#EAEAEA;border:1.5px solid #D0D0D0"></div>N1 Pratica</div>
             <div class="legend-item"><div class="legend-dot" style="background:#BDBDBD"></div>N2 Executa</div>
