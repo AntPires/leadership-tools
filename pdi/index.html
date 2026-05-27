@@ -175,28 +175,6 @@
       overflow: hidden;
     }
 
-    /* ── RIGHT COLUMN — Focos + Ações + Papel ── */
-    .pdi-right {
-      flex: 1;
-      overflow-y: auto;
-      background: var(--bg);
-      padding: 20px 24px 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    /* ── SECTION LABELS ──────────────────────── */
-    .section-label {
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    /* ── PERFIL ATUAL ────────────────────────── */
     .perfil-label {
       font-size: 9.5px;
       font-weight: 700;
@@ -225,26 +203,30 @@
     .perfil-textarea:focus { border-color: var(--charcoal); }
     .perfil-textarea::placeholder { color: #ccc; }
 
-    /* ── PDI SECTION CARDS ───────────────────── */
-    .pdi-section {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 11px;
-      padding: 16px 18px 14px;
+    /* ── RIGHT COLUMN ────────────────────────── */
+    .pdi-right {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg);
+      padding: 20px 24px 40px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .pdi-section-header {
+    .focos-section-header {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      flex-shrink: 0;
     }
 
-    .pdi-section-title {
-      font-size: 13px;
+    .focos-section-title {
+      font-size: 9.5px;
       font-weight: 700;
-      color: var(--charcoal);
-      letter-spacing: -0.01em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     .focos-counter {
@@ -254,15 +236,59 @@
       letter-spacing: 0.04em;
     }
 
-    /* ── LIST ITEMS ──────────────────────────── */
-    .list-items { display: flex; flex-direction: column; gap: 5px; }
+    /* ── FOCO CARDS ──────────────────────────── */
+    .focos-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-    .list-item {
+    .foco-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 11px;
+      padding: 16px 18px 14px;
+    }
+
+    .foco-row {
       display: flex;
       align-items: center;
       gap: 7px;
     }
 
+    /* ── AÇÕES ───────────────────────────────── */
+    .acoes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+      margin-left: 20px;
+    }
+
+    .acao-item { display: flex; flex-direction: column; }
+
+    .acao-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* ── PAPEIS ──────────────────────────────── */
+    .papel-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 5px;
+      margin-left: 23px;
+    }
+
+    .papel-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* ── BULLETS ─────────────────────────────── */
     .list-bullet {
       font-size: 11px;
       color: var(--charcoal);
@@ -272,8 +298,9 @@
       user-select: none;
     }
 
-    .list-bullet.muted { color: #aaa; }
+    .list-bullet.muted { color: #bbb; }
 
+    /* ── INPUTS ──────────────────────────────── */
     .list-input {
       flex: 1;
       font-family: inherit;
@@ -290,6 +317,7 @@
     .list-input:focus { border-color: var(--charcoal); background: var(--white); }
     .list-input::placeholder { color: #ccc; }
 
+    /* ── REMOVE BTN ──────────────────────────── */
     .remove-btn {
       font-size: 15px;
       line-height: 1;
@@ -304,25 +332,43 @@
 
     .remove-btn:hover { color: var(--charcoal); }
 
-    /* ── ADD BUTTON ──────────────────────────── */
+    /* ── ADD BUTTONS ─────────────────────────── */
     .add-btn {
       font-family: inherit;
-      font-size: 11.5px;
       font-weight: 600;
       color: #aaa;
       background: none;
       border: 1.5px dashed #ddd;
       border-radius: 7px;
-      padding: 6px 12px;
       cursor: pointer;
       transition: border-color 0.14s, color 0.14s;
       text-align: left;
-      margin-top: 8px;
-      width: 100%;
     }
 
     .add-btn:hover { border-color: #aaa; color: var(--charcoal); }
     .add-btn:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
+
+    .add-foco-btn {
+      font-size: 11.5px;
+      padding: 7px 14px;
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    .add-acao-btn {
+      font-size: 11px;
+      padding: 5px 10px;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .add-papel-btn {
+      font-size: 10.5px;
+      padding: 4px 9px;
+      margin-top: 5px;
+      margin-left: 23px;
+      width: calc(100% - 23px);
+    }
   </style>
 </head>
 <body>
@@ -387,130 +433,165 @@
         ></textarea>
       </div>
 
-      <!-- Right: Focos + Ações + Papel do líder -->
+      <!-- Right: Focos hierárquicos -->
       <div class="pdi-right">
-
-        <!-- Focos do ciclo -->
-        <div class="pdi-section">
-          <div class="pdi-section-header">
-            <div class="pdi-section-title">Focos do ciclo</div>
-            <span class="focos-counter" id="focos-counter">1 / 3</span>
-          </div>
-          <div class="list-items" id="focos-list"></div>
-          <button class="add-btn" id="focos-add-btn" onclick="addFoco()">+ Adicionar foco</button>
+        <div class="focos-section-header">
+          <span class="focos-section-title">Focos do ciclo</span>
+          <span class="focos-counter" id="focos-counter">1 / 3</span>
         </div>
-
-        <!-- Ações internas -->
-        <div class="pdi-section">
-          <div class="pdi-section-header">
-            <div class="pdi-section-title">Ações internas</div>
-          </div>
-          <div class="list-items" id="acoes-list"></div>
-          <button class="add-btn" onclick="addAcao()">+ Adicionar ação</button>
-        </div>
-
-        <!-- Papel do líder -->
-        <div class="pdi-section">
-          <div class="pdi-section-header">
-            <div class="pdi-section-title">Papel do líder</div>
-          </div>
-          <div class="list-items" id="papel-list"></div>
-          <button class="add-btn" onclick="addPapel()">+ Adicionar compromisso</button>
-        </div>
-
+        <div id="focos-container" class="focos-container"></div>
+        <button class="add-btn add-foco-btn" id="add-foco-btn" onclick="addFoco()">+ Adicionar foco</button>
       </div>
+
     </div>
   </div>
 </div>
 
 <script>
 const MAX_FOCOS = 3;
+const MAX_ACOES = 3;
+const MAX_PAPEL = 3;
 
-// ── Generic list item builder ─────────────────────────────
+// ── Papel do líder ────────────────────────────────────────
 
-function createItem(listId, bullet, bulletClass, placeholder, removeFn) {
-  const list = document.getElementById(listId);
+function addPapel(acaoItem) {
+  const list = acaoItem.querySelector('.papel-list');
+  if (list.children.length >= MAX_PAPEL) return;
   const item = document.createElement('div');
-  item.className = 'list-item';
+  item.className = 'papel-item';
   item.innerHTML = `
-    <span class="list-bullet ${bulletClass}">${bullet}</span>
-    <input type="text" class="list-input" placeholder="${placeholder}" />
-    <button class="remove-btn" onclick="${removeFn}(this)" title="Remover">×</button>
+    <span class="list-bullet">○</span>
+    <input type="text" class="list-input" placeholder="Descreva o compromisso…" />
+    <button class="remove-btn" onclick="removePapel(this)" title="Remover">×</button>
   `;
   list.appendChild(item);
   item.querySelector('input').focus();
-  return item;
+  updateAddPapelBtn(acaoItem);
 }
 
-function removeItem(btn, listId, afterRemove) {
-  const list = document.getElementById(listId);
-  const item = btn.closest('.list-item');
+function removePapel(btn) {
+  const item = btn.closest('.papel-item');
+  const list = item.parentElement;
+  const acaoItem = list.closest('.acao-item');
   if (list.children.length > 1) {
     item.remove();
   } else {
     item.querySelector('input').value = '';
   }
-  if (afterRemove) afterRemove();
+  updateAddPapelBtn(acaoItem);
 }
 
-// ── Focos do ciclo ────────────────────────────────────────
-
-function addFoco() {
-  const list = document.getElementById('focos-list');
-  if (list.children.length >= MAX_FOCOS) return;
-  createItem('focos-list', '◆', '', 'Descreva o foco do ciclo…', 'removeFoco');
-  updateFocosCounter();
-}
-
-function removeFoco(btn) {
-  removeItem(btn, 'focos-list', updateFocosCounter);
-}
-
-function updateFocosCounter() {
-  const count = document.getElementById('focos-list').children.length;
-  document.getElementById('focos-counter').textContent = `${count} / ${MAX_FOCOS}`;
-  document.getElementById('focos-add-btn').disabled = count >= MAX_FOCOS;
+function updateAddPapelBtn(acaoItem) {
+  const count = acaoItem.querySelector('.papel-list').children.length;
+  acaoItem.querySelector('.add-papel-btn').disabled = count >= MAX_PAPEL;
 }
 
 // ── Ações internas ────────────────────────────────────────
 
-function addAcao() {
-  createItem('acoes-list', '→', 'muted', 'Descreva a ação…', 'removeAcao');
+function createAcaoItem() {
+  const item = document.createElement('div');
+  item.className = 'acao-item';
+  item.innerHTML = `
+    <div class="acao-row">
+      <span class="list-bullet muted">→</span>
+      <input type="text" class="list-input acao-input" placeholder="Descreva a ação…" />
+      <button class="remove-btn" onclick="removeAcao(this)" title="Remover">×</button>
+    </div>
+    <div class="papel-list"></div>
+    <button class="add-btn add-papel-btn" onclick="addPapel(this.closest('.acao-item'))">+ Papel do líder</button>
+  `;
+  addPapel(item);
+  return item;
+}
+
+function addAcao(focoCard) {
+  const list = focoCard.querySelector('.acoes-list');
+  if (list.children.length >= MAX_ACOES) return;
+  const item = createAcaoItem();
+  list.appendChild(item);
+  item.querySelector('.acao-input').focus();
+  updateAddAcaoBtn(focoCard);
 }
 
 function removeAcao(btn) {
-  removeItem(btn, 'acoes-list', null);
+  const acaoItem = btn.closest('.acao-item');
+  const list = acaoItem.parentElement;
+  const focoCard = list.closest('.foco-card');
+  if (list.children.length > 1) {
+    acaoItem.remove();
+  } else {
+    acaoItem.querySelector('.acao-input').value = '';
+    acaoItem.querySelector('.papel-list').innerHTML = '';
+    addPapel(acaoItem);
+  }
+  updateAddAcaoBtn(focoCard);
 }
 
-// ── Papel do líder ────────────────────────────────────────
-
-function addPapel() {
-  createItem('papel-list', '○', '', 'Descreva o compromisso…', 'removePapel');
+function updateAddAcaoBtn(focoCard) {
+  const count = focoCard.querySelector('.acoes-list').children.length;
+  focoCard.querySelector('.add-acao-btn').disabled = count >= MAX_ACOES;
 }
 
-function removePapel(btn) {
-  removeItem(btn, 'papel-list', null);
+// ── Focos do ciclo ────────────────────────────────────────
+
+function createFocoCard() {
+  const card = document.createElement('div');
+  card.className = 'foco-card';
+  card.innerHTML = `
+    <div class="foco-row">
+      <span class="list-bullet">◆</span>
+      <input type="text" class="list-input foco-input" placeholder="Descreva o foco do ciclo…" />
+      <button class="remove-btn" onclick="removeFoco(this)" title="Remover">×</button>
+    </div>
+    <div class="acoes-list"></div>
+    <button class="add-btn add-acao-btn" onclick="addAcao(this.closest('.foco-card'))">+ Adicionar ação</button>
+  `;
+  card.querySelector('.acoes-list').appendChild(createAcaoItem());
+  return card;
 }
 
-// ── Reset ─────────────────────────────────────────────────
+function addFoco() {
+  const container = document.getElementById('focos-container');
+  if (container.children.length >= MAX_FOCOS) return;
+  const card = createFocoCard();
+  container.appendChild(card);
+  card.querySelector('.foco-input').focus();
+  updateFocosCounter();
+}
+
+function removeFoco(btn) {
+  const card = btn.closest('.foco-card');
+  const container = card.parentElement;
+  if (container.children.length > 1) {
+    card.remove();
+  } else {
+    card.querySelector('.foco-input').value = '';
+    card.querySelector('.acoes-list').innerHTML = '';
+    card.querySelector('.acoes-list').appendChild(createAcaoItem());
+    card.querySelector('.add-acao-btn').disabled = false;
+  }
+  updateFocosCounter();
+}
+
+function updateFocosCounter() {
+  const count = document.getElementById('focos-container').children.length;
+  document.getElementById('focos-counter').textContent = `${count} / ${MAX_FOCOS}`;
+  document.getElementById('add-foco-btn').disabled = count >= MAX_FOCOS;
+}
+
+// ── Reset & Init ──────────────────────────────────────────
 
 function resetPDI() {
   document.getElementById('liderado-name').value = '';
   document.getElementById('perfil-textarea').value = '';
-  document.getElementById('focos-list').innerHTML = '';
-  document.getElementById('acoes-list').innerHTML = '';
-  document.getElementById('papel-list').innerHTML = '';
+  document.getElementById('focos-container').innerHTML = '';
   init();
 }
 
-// ── Init ──────────────────────────────────────────────────
-
 function init() {
-  addFoco();
-  addAcao();
-  addPapel();
-  // remove focus from the auto-focused inputs on init
-  document.querySelectorAll('.list-input').forEach(i => i.blur());
+  document.getElementById('focos-container').appendChild(createFocoCard());
+  updateFocosCounter();
+  document.querySelectorAll('input, textarea').forEach(i => i.blur());
 }
 
 init();
