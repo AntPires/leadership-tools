@@ -349,6 +349,41 @@
     .add-btn:hover { border-color: #aaa; color: var(--charcoal); }
     .add-btn:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
 
+    /* ── PILAR SELECTOR ──────────────────────── */
+    .pilar-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+      padding-left: 23px; /* alinha com o início do textarea */
+    }
+
+    .pilar-chip {
+      font-family: inherit;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: none;
+      color: #bbb;
+      cursor: pointer;
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+      line-height: 1.5;
+    }
+
+    .pilar-chip:hover {
+      border-color: #aaa;
+      color: var(--charcoal);
+    }
+
+    .pilar-chip.selected {
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+      color: var(--white);
+    }
+
     .add-foco-btn {
       font-size: 11.5px;
       padding: 7px 14px;
@@ -461,6 +496,13 @@ function autoGrow(el) {
   el.style.height = el.scrollHeight + 'px';
 }
 
+function selectPilar(chip) {
+  const selector = chip.closest('.pilar-selector');
+  const wasSelected = chip.classList.contains('selected');
+  selector.querySelectorAll('.pilar-chip').forEach(c => c.classList.remove('selected'));
+  if (!wasSelected) chip.classList.add('selected');
+}
+
 // ── Papel do líder ────────────────────────────────────────
 
 function addPapel(acaoItem) {
@@ -551,6 +593,13 @@ function createFocoCard() {
       <span class="list-bullet">◆</span>
       <textarea class="list-input foco-input" placeholder="Descreva o foco do ciclo" rows="1" oninput="autoGrow(this)"></textarea>
       <button class="remove-btn" onclick="removeFoco(this)" title="Remover">×</button>
+    </div>
+    <div class="pilar-selector">
+      <button class="pilar-chip" onclick="selectPilar(this)">Experiência</button>
+      <button class="pilar-chip" onclick="selectPilar(this)">Sistemas</button>
+      <button class="pilar-chip" onclick="selectPilar(this)">Estratégia</button>
+      <button class="pilar-chip" onclick="selectPilar(this)">Influência</button>
+      <button class="pilar-chip" onclick="selectPilar(this)">Descoberta</button>
     </div>
     <div class="acoes-list"></div>
     <button class="add-btn add-acao-btn" onclick="addAcao(this.closest('.foco-card'))">+ Adicionar ação</button>
