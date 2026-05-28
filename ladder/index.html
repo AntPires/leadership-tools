@@ -5,170 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leadership Tools — Ladder</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/shared.css">
   <style>
-    :root {
-      --charcoal: #141414;
-      --light: #E6E6E6;
-      --bg: #F6F6F4;
-      --white: #FFFFFF;
-      --muted: #888;
-      --border: #EBEBEB;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--charcoal);
-      overflow: hidden;
-    }
-
-    /* ── APP SHELL ──────────────────────────── */
-    .app { display: flex; height: 100vh; }
-
-    /* ── SIDEBAR ─────────────────────────────── */
-    .sidebar {
-      width: 60px;
-      flex-shrink: 0;
-      background: var(--charcoal);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 0 24px;
-    }
-
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 16px;
-      margin-bottom: 8px;
-      width: 100%;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      padding: 8px 0;
-    }
-
-    .nav-item {
-      position: relative;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255,255,255,0.35);
-      cursor: default;
-      user-select: none;
-      text-decoration: none;
-      transition: background 0.12s, color 0.12s;
-    }
-
-    .nav-item.active {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-    }
-
-    .nav-item:not(.active):hover {
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.7);
-    }
-
-    .nav-icon { width: 16px; height: 16px; flex-shrink: 0; }
-
-    /* Tooltip */
-    .nav-item::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      left: calc(100% + 10px);
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(20,20,20,0.92);
-      color: #fff;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 11.5px;
-      font-weight: 600;
-      padding: 5px 9px;
-      border-radius: 6px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.15s;
-      z-index: 100;
-    }
-
-    .nav-item:hover::after { opacity: 1; }
-
-    /* ── MAIN ────────────────────────────────── */
-    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
-
-    /* ── HEADER ──────────────────────────────── */
-    .header {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 28px;
-      height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-    }
-
-    .header-left { display: flex; align-items: baseline; gap: 12px; }
-
-    .header h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
-    .header-sub { font-size: 12px; color: #bbb; }
-
-    .header-right { display: flex; align-items: center; gap: 8px; }
-    .header-right label { font-size: 12px; color: var(--muted); white-space: nowrap; }
-
-    .designer-input {
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--charcoal);
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      border-radius: 7px;
-      padding: 5px 11px;
-      width: 190px;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-
-    .designer-input:focus { border-color: var(--charcoal); }
-    .designer-input::placeholder { color: #ccc; font-weight: 400; }
-
-    .reset-btn {
-      font-family: inherit;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--muted);
-      background: none;
-      border: 1.5px solid var(--border);
-      border-radius: 7px;
-      padding: 5px 12px;
-      cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-    }
-
-    .reset-btn:hover { border-color: #aaa; color: var(--charcoal); }
-
     /* ── CONTENT ─────────────────────────────── */
     .content { flex: 1; display: flex; min-height: 0; overflow: hidden; }
 
     /* ── CHART AREA ──────────────────────────── */
     .chart-area {
-      flex: 1;
+      flex: 1.35;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -205,13 +51,13 @@
 
     .mode-btn {
       font-family: inherit;
-      font-size: 11.5px;
+      font-size: 12.5px;
       font-weight: 600;
       color: #aaa;
       background: transparent;
       border: none;
       border-radius: 6px;
-      padding: 5px 13px;
+      padding: 6px 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -229,12 +75,12 @@
     /* ── RADAR IDENTITY (name + date) ────────── */
     .radar-identity {
       text-align: center;
-      margin-bottom: 16px;
-      min-height: 28px;
+      margin-bottom: 20px;
+      min-height: 30px;
     }
 
     .radar-name {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 800;
       color: var(--charcoal);
       letter-spacing: -0.04em;
@@ -242,9 +88,9 @@
     }
 
     .radar-date {
-      font-size: 10.5px;
+      font-size: 11.5px;
       color: #bbb;
-      margin-top: 1px;
+      margin-top: 2px;
       display: none;
     }
 
@@ -252,33 +98,41 @@
     .level-legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px 13px;
-      margin-top: 10px;
+      gap: 6px 16px;
+      margin-top: 14px;
       justify-content: center;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 5px;
-      font-size: 10px;
-      color: #bbb;
+      gap: 6px;
+      font-size: 11.5px;
+      color: #aaa;
       font-weight: 500;
     }
 
-    .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-    #radar-svg { width: 100%; max-width: 430px; height: auto; display: block; }
+    #radar-svg { width: 100%; max-width: 560px; height: auto; display: block; }
 
     .chart-hint {
-      margin-top: 10px;
-      font-size: 10px;
-      color: #ccc;
+      margin-top: 12px;
+      font-size: 11.5px;
+      color: #bbb;
       text-align: center;
       line-height: 1.6;
     }
 
-    /* ── DETAIL PANEL ────────────────────────── */
+    /* ── DETAIL COLUMN (panel + actions) ──────── */
+    .detail-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--bg);
+    }
+
     .detail-panel { flex: 1; overflow-y: auto; background: var(--bg); }
 
     .detail-placeholder {
@@ -341,7 +195,7 @@
       white-space: nowrap;
     }
 
-    .pillar-desc { font-size: 12.5px; line-height: 1.75; color: #777; margin-bottom: 16px; }
+    .pillar-desc { font-size: 13px; line-height: 1.7; color: #777; margin-bottom: 18px; }
 
     /* ── PROGRESSING TOGGLE ──────────────────── */
     .progressing-row {
@@ -362,8 +216,8 @@
     .progressing-row.on { border-color: var(--charcoal); }
 
     .progressing-row-left { display: flex; flex-direction: column; gap: 2px; }
-    .progressing-label { font-size: 12.5px; font-weight: 600; color: var(--charcoal); }
-    .progressing-sub { font-size: 11px; color: #aaa; }
+    .progressing-label { font-size: 13.5px; font-weight: 600; color: var(--charcoal); }
+    .progressing-sub { font-size: 12px; color: #aaa; }
 
     .toggle-sw {
       width: 34px;
@@ -390,16 +244,6 @@
 
     .toggle-sw.on { background: var(--charcoal); }
     .toggle-sw.on::after { transform: translateX(15px); }
-
-    /* ── LEVELS LABEL ────────────────────────── */
-    .levels-label {
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #bbb;
-      margin-bottom: 10px;
-    }
 
     /* ── LEVEL CARDS (read-only) ─────────────── */
     .level-cards { display: flex; flex-direction: column; gap: 6px; }
@@ -435,9 +279,9 @@
       flex-shrink: 0;
     }
 
-    .level-name { font-size: 12.5px; font-weight: 600; color: var(--charcoal); }
+    .level-name { font-size: 13.5px; font-weight: 600; color: var(--charcoal); }
 
-    .level-desc { font-size: 11.5px; line-height: 1.65; color: #888; }
+    .level-desc { font-size: 12.5px; line-height: 1.7; color: #888; }
 
     .pdi-note {
       margin-top: 20px;
@@ -448,6 +292,17 @@
       background: var(--white);
       border-radius: 8px;
       border: 1px solid var(--border);
+    }
+
+    /* ── LADDER ACTIONS (export texto/imagem) ── */
+    .ladder-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 16px 26px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      flex-shrink: 0;
     }
 
   </style>
@@ -496,8 +351,8 @@
       </div>
       <div class="header-right">
         <label for="designer-name">Designer</label>
-        <input class="designer-input" id="designer-name" type="text" placeholder="Nome do designer" autocomplete="off" oninput="updateRadarIdentity()" />
-        <button class="reset-btn" onclick="resetLevels()">Reiniciar</button>
+        <input class="input designer-input" id="designer-name" type="text" placeholder="Nome do designer" autocomplete="off" oninput="updateRadarIdentity()" />
+        <button class="btn btn-secondary btn-slim" onclick="resetLevels()">Reiniciar</button>
       </div>
     </header>
 
@@ -540,14 +395,21 @@
 
       </div>
 
-      <!-- Detail Panel (read-only content) -->
-      <div class="detail-panel" id="detail-panel">
-        <div class="detail-placeholder">
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-            <circle cx="28" cy="28" r="25" stroke="#E0E0E0" stroke-width="2"/>
-            <path d="M20 28l5.5 6L36 21" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <p>Selecione um pilar no radar<br>para explorar as competências<br>e os níveis de atuação.</p>
+      <!-- Detail Column (panel + actions) -->
+      <div class="detail-column">
+        <div class="detail-panel" id="detail-panel">
+          <div class="detail-placeholder">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+              <circle cx="28" cy="28" r="25" stroke="#E0E0E0" stroke-width="2"/>
+              <path d="M20 28l5.5 6L36 21" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p>Selecione um pilar no radar<br>para explorar as competências<br>e os níveis de atuação.</p>
+          </div>
+        </div>
+
+        <div class="ladder-actions">
+          <button class="btn btn-secondary" id="export-text-btn" onclick="exportLadderText()">Exportar texto</button>
+          <button class="btn btn-primary" id="export-image-btn" onclick="exportLadderImage()">Exportar imagem</button>
         </div>
       </div>
 
@@ -765,6 +627,7 @@ function buildRadar() {
         selectedPillar = pillar.id;
         buildRadar();
         renderDetail();
+        updateExportButtons();
       });
     }
   });
@@ -809,8 +672,8 @@ function buildRadar() {
       x, y,
       'text-anchor': anchor,
       'dominant-baseline': 'middle',
-      'font-family': "'Plus Jakarta Sans', sans-serif",
-      'font-size': '14.5',
+      'font-family': "'Inter', sans-serif",
+      'font-size': '16',
       'font-weight': isProg ? '700' : '500',
       fill: isProg ? '#141414' : '#999',
       'letter-spacing': '-0.3'
@@ -877,7 +740,7 @@ function renderDetail() {
         <div class="toggle-sw ${isProg ? 'on' : ''}"></div>
       </div>
 
-      <div class="levels-label">Níveis de atuação</div>
+      <div class="section-label">Níveis de atuação</div>
       <div class="level-cards">
         ${pillar.levels.map((level, idx) => {
           const isC = cLevel === idx + 1;
@@ -917,6 +780,7 @@ function toggleProgressing(pillarId) {
   progressingSet.has(pillarId) ? progressingSet.delete(pillarId) : progressingSet.add(pillarId);
   buildRadar();
   renderDetail();
+  updateExportButtons();
 }
 
 function setEditMode(mode) {
@@ -935,6 +799,7 @@ function resetLevels() {
   selectedPillar = null;
   buildRadar();
   renderDetail();
+  updateExportButtons();
 }
 
 function updateRadarIdentity() {
@@ -948,6 +813,120 @@ function updateRadarIdentity() {
   const monthYear = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
   dateEl.textContent = monthYear;
   dateEl.style.display = name ? 'block' : 'none';
+
+  updateExportButtons();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXPORT
+// ═══════════════════════════════════════════════════════════
+
+function hasLadderData() {
+  return PILLARS.some(p => currentLevels[p.id] > 0 || targetLevels[p.id] > 0)
+      || progressingSet.size > 0;
+}
+
+function updateExportButtons() {
+  const disabled = !hasLadderData();
+  document.getElementById('export-text-btn').disabled  = disabled;
+  document.getElementById('export-image-btn').disabled = disabled;
+}
+
+function formatDateTitle() {
+  const s = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function exportLadderText() {
+  if (!hasLadderData()) return;
+  const designer = document.getElementById('designer-name').value.trim();
+  const dataTitle = formatDateTitle();
+
+  const lines = [];
+  lines.push(`Ladder${designer ? ' — ' + designer : ''}`);
+  lines.push(dataTitle);
+  lines.push('');
+
+  // Alinhamento: maior nome de pilar + 2 espaços
+  const maxName = Math.max(...PILLARS.map(p => p.name.length));
+  PILLARS.forEach(p => {
+    const c = currentLevels[p.id];
+    const t = targetLevels[p.id];
+    const prog = progressingSet.has(p.id);
+    const parts = [];
+    if (c > 0) parts.push(`Atual: ${p.levels[c - 1].n} ${p.levels[c - 1].name}`);
+    if (t > 0) parts.push(`Foco: ${p.levels[t - 1].n} ${p.levels[t - 1].name}`);
+    if (prog)  parts.push('Em evolução: sim');
+    const right = parts.length ? parts.join('   ') : '—';
+    lines.push(p.name.padEnd(maxName + 2, ' ') + right);
+  });
+
+  const text = lines.join('\n');
+  navigator.clipboard.writeText(text).then(
+    () => flashLadderBtn('export-text-btn', 'Copiado!'),
+    () => flashLadderBtn('export-text-btn', 'Erro')
+  );
+}
+
+function flashLadderBtn(id, label) {
+  const btn = document.getElementById(id);
+  const original = btn.textContent;
+  btn.textContent = label;
+  btn.classList.add('copied');
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => {
+    btn.textContent = original;
+    btn.classList.remove('copied');
+  }, 1800);
+}
+
+function exportLadderImage() {
+  if (!hasLadderData()) return;
+  const designer = document.getElementById('designer-name').value.trim() || 'Ladder';
+  const dataTitle = formatDateTitle();
+  const dataSlug  = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
+                      .replace(/\s+/g, '-');
+  const radarInner = document.getElementById('radar-svg').innerHTML;
+
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  // Composição: 800x900, fundo bg, nome+data no topo, radar embaixo
+  const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="900" viewBox="0 0 800 900">
+    <rect width="100%" height="100%" fill="#F6F6F4"/>
+    <text x="400" y="80" text-anchor="middle" font-family="Inter, sans-serif"
+          font-size="38" font-weight="800" fill="#141414" letter-spacing="-1.5">${esc(designer)}</text>
+    <text x="400" y="115" text-anchor="middle" font-family="Inter, sans-serif"
+          font-size="16" font-weight="500" fill="#888">${esc(dataTitle)}</text>
+    <svg x="80" y="160" width="640" height="600" viewBox="-20 0 640 600">${radarInner}</svg>
+  </svg>`;
+
+  const blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const img  = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width  = 1600;
+    canvas.height = 1800;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#F6F6F4';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(b => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(b);
+      const safeName = designer.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      a.download = `ladder-${safeName || 'designer'}-${dataSlug}.png`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      flashLadderBtn('export-image-btn', 'Baixado!');
+    }, 'image/png');
+  };
+  img.onerror = () => {
+    URL.revokeObjectURL(url);
+    flashLadderBtn('export-image-btn', 'Erro');
+  };
+  img.src = url;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -955,6 +934,7 @@ function updateRadarIdentity() {
 // ═══════════════════════════════════════════════════════════
 
 buildRadar();
+updateExportButtons();
 </script>
 </body>
 </html>

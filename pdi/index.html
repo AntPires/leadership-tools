@@ -5,171 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leadership Tools — PDI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/shared.css">
   <style>
-    :root {
-      --charcoal: #141414;
-      --light: #E6E6E6;
-      --bg: #F6F6F4;
-      --white: #FFFFFF;
-      --muted: #7a7a7a;
-      --border: #EBEBEB;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--charcoal);
-      overflow: hidden;
-    }
-
-    /* ── APP SHELL ──────────────────────────── */
-    .app { display: flex; height: 100vh; }
-
-    /* ── SIDEBAR ─────────────────────────────── */
-    .sidebar {
-      width: 60px;
-      flex-shrink: 0;
-      background: var(--charcoal);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 0 24px;
-    }
-
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 16px;
-      margin-bottom: 8px;
-      width: 100%;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      padding: 8px 0;
-    }
-
-    .nav-item {
-      position: relative;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255,255,255,0.35);
-      cursor: default;
-      user-select: none;
-      text-decoration: none;
-      transition: background 0.12s, color 0.12s;
-    }
-
-    .nav-item.active {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-    }
-
-    .nav-item:not(.active):hover {
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.7);
-    }
-
-    .nav-icon { width: 16px; height: 16px; flex-shrink: 0; }
-
-    .nav-item::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      left: calc(100% + 10px);
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(20,20,20,0.92);
-      color: #fff;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 11.5px;
-      font-weight: 600;
-      padding: 5px 9px;
-      border-radius: 6px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.15s;
-      z-index: 100;
-    }
-
-    .nav-item:hover::after { opacity: 1; }
-
-    /* ── MAIN ────────────────────────────────── */
-    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
-
-    /* ── HEADER ──────────────────────────────── */
-    .header {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 28px;
-      height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-    }
-
-    .header-left { display: flex; align-items: baseline; gap: 12px; }
-    .header h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
-    .header-sub { font-size: 12px; color: #bbb; }
-
-    .header-right { display: flex; align-items: center; gap: 10px; }
-    .header-right .header-field { display: flex; align-items: center; gap: 6px; }
-    .header-right label { font-size: 12px; color: var(--muted); white-space: nowrap; }
-
-    .header-input {
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--charcoal);
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      border-radius: 7px;
-      padding: 5px 11px;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-
-    .header-input:focus { border-color: var(--charcoal); }
-    .header-input::placeholder { color: #ccc; font-weight: 400; }
-
-    .liderado-input { width: 180px; }
-    .ciclo-input    { width: 110px; }
-
-    .header-btn {
-      font-family: inherit;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--muted);
-      background: none;
-      border: 1.5px solid var(--border);
-      border-radius: 7px;
-      padding: 5px 12px;
-      cursor: pointer;
-      transition: border-color 0.15s, color 0.15s, background 0.15s;
-      white-space: nowrap;
-    }
-
-    .header-btn:hover { border-color: #aaa; color: var(--charcoal); }
-
-    .header-btn.copied {
-      border-color: var(--charcoal);
-      color: var(--charcoal);
-      background: var(--bg);
-    }
 
     /* ── BODY (coluna única scrollável) ─────── */
     .pdi-body {
@@ -185,17 +24,6 @@
       display: flex;
       flex-direction: column;
       gap: 44px;
-    }
-
-    /* ── SECTION LABEL (shared) ──────────────── */
-    .section-label {
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 14px;
-      display: block;
     }
 
     /* ── PERFIL ATUAL ────────────────────────── */
@@ -353,7 +181,10 @@
       border-radius: 7px;
       cursor: pointer;
       transition: border-color 0.14s, color 0.14s;
-      text-align: left;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      align-self: flex-start; /* não estica em containers flex column */
     }
 
     .add-btn:hover { border-color: #aaa; color: var(--charcoal); }
@@ -400,23 +231,30 @@
     .add-foco-btn {
       font-size: 11.5px;
       padding: 7px 14px;
-      margin-top: 12px;
-      width: 100%;
+      margin-top: 14px;
     }
 
     .add-acao-btn {
       font-size: 11px;
-      padding: 5px 10px;
-      margin-top: 8px;
-      width: 100%;
+      padding: 5px 11px;
+      margin-top: 10px;
     }
 
     .add-papel-btn {
       font-size: 10.5px;
-      padding: 4px 9px;
-      margin-top: 5px;
+      padding: 4px 10px;
+      margin-top: 6px;
       margin-left: 20px; /* alinha com os itens de papel (8px + 12px) */
-      width: calc(100% - 20px);
+    }
+
+    /* ── PDI ACTIONS (fim da página) ─────────── */
+    .pdi-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
     }
   </style>
 </head>
@@ -464,15 +302,9 @@
       </div>
       <div class="header-right">
         <div class="header-field">
-          <label for="liderado-name">Liderado</label>
-          <input class="header-input liderado-input" id="liderado-name" type="text" placeholder="Nome do liderado" autocomplete="off" />
+          <label for="designer-name">Designer</label>
+          <input class="input designer-input" id="designer-name" type="text" placeholder="Nome do designer" autocomplete="off" />
         </div>
-        <div class="header-field">
-          <label for="ciclo-name">Ciclo</label>
-          <input class="header-input ciclo-input" id="ciclo-name" type="text" placeholder="Q1 2026" autocomplete="off" />
-        </div>
-        <button class="header-btn" id="export-btn" onclick="exportPDI()">Exportar</button>
-        <button class="header-btn" onclick="resetPDI()">Reiniciar</button>
       </div>
     </header>
 
@@ -498,6 +330,12 @@
           </div>
           <div id="focos-container" class="focos-container"></div>
           <button class="add-btn add-foco-btn" id="add-foco-btn" onclick="addFoco()">+ Adicionar foco</button>
+        </div>
+
+        <!-- Ações principais -->
+        <div class="pdi-actions">
+          <button class="btn btn-secondary" onclick="resetPDI()">Reiniciar</button>
+          <button class="btn btn-primary" id="export-btn" onclick="exportPDI()">Exportar PDI</button>
         </div>
 
       </div>
@@ -658,8 +496,7 @@ function updateFocosCounter() {
 // ── Reset & Init ──────────────────────────────────────────
 
 function resetPDI() {
-  document.getElementById('liderado-name').value = '';
-  document.getElementById('ciclo-name').value = '';
+  document.getElementById('designer-name').value = '';
   document.getElementById('perfil-textarea').value = '';
   document.getElementById('focos-container').innerHTML = '';
   init();
@@ -668,8 +505,9 @@ function resetPDI() {
 // ── Export ────────────────────────────────────────────────
 
 function exportPDI() {
-  const liderado = document.getElementById('liderado-name').value.trim();
-  const ciclo    = document.getElementById('ciclo-name').value.trim();
+  const designer = document.getElementById('designer-name').value.trim();
+  const dataStr  = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  const dataTitle = dataStr.charAt(0).toUpperCase() + dataStr.slice(1);
   const perfil   = document.getElementById('perfil-textarea').value.trim();
 
   const focos = [...document.querySelectorAll('.foco-card')].map(card => ({
@@ -683,14 +521,14 @@ function exportPDI() {
   })).filter(f => f.texto || f.acoes.length);
 
   // Vazio?
-  if (!liderado && !ciclo && !perfil && focos.length === 0) {
+  if (!designer && !perfil && focos.length === 0) {
     flashExportBtn('Vazio');
     return;
   }
 
   const lines = [];
-  lines.push(`PDI${liderado ? ' — ' + liderado : ''}`);
-  if (ciclo) lines.push(`Ciclo: ${ciclo}`);
+  lines.push(`PDI${designer ? ' — ' + designer : ''}`);
+  lines.push(dataTitle);
   lines.push('');
 
   if (perfil) {
@@ -735,8 +573,28 @@ function flashExportBtn(label) {
 function init() {
   document.getElementById('focos-container').appendChild(createFocoCard());
   updateFocosCounter();
+  updateExportState();
   document.querySelectorAll('input, textarea').forEach(i => i.blur());
 }
+
+// ── Export state (habilita/desabilita botão) ──────────────
+
+function updateExportState() {
+  const designer = document.getElementById('designer-name').value.trim();
+  const perfil   = document.getElementById('perfil-textarea').value.trim();
+  const anyText  = [...document.querySelectorAll('.foco-input, .acao-input, .papel-item textarea')]
+                     .some(el => el.value.trim());
+  const anyPilar = [...document.querySelectorAll('.pilar-select')].some(s => !!s.value);
+  document.getElementById('export-btn').disabled = !(designer || perfil || anyText || anyPilar);
+}
+
+// Listeners globais — captura digitação, seleção de pilar e mudanças DOM
+document.addEventListener('input',  updateExportState);
+document.addEventListener('change', updateExportState);
+new MutationObserver(updateExportState).observe(
+  document.getElementById('focos-container'),
+  { childList: true, subtree: true }
+);
 
 init();
 </script>
