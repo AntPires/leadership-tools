@@ -12,7 +12,7 @@
       --light: #E6E6E6;
       --bg: #F6F6F4;
       --white: #FFFFFF;
-      --muted: #888;
+      --muted: #7a7a7a;
       --border: #EBEBEB;
     }
 
@@ -126,10 +126,11 @@
     .header h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
     .header-sub { font-size: 12px; color: #bbb; }
 
-    .header-right { display: flex; align-items: center; gap: 8px; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .header-right .header-field { display: flex; align-items: center; gap: 6px; }
     .header-right label { font-size: 12px; color: var(--muted); white-space: nowrap; }
 
-    .liderado-input {
+    .header-input {
       font-family: inherit;
       font-size: 13px;
       font-weight: 500;
@@ -138,15 +139,17 @@
       border: 1.5px solid var(--border);
       border-radius: 7px;
       padding: 5px 11px;
-      width: 190px;
       outline: none;
       transition: border-color 0.15s;
     }
 
-    .liderado-input:focus { border-color: var(--charcoal); }
-    .liderado-input::placeholder { color: #ccc; font-weight: 400; }
+    .header-input:focus { border-color: var(--charcoal); }
+    .header-input::placeholder { color: #ccc; font-weight: 400; }
 
-    .reset-btn {
+    .liderado-input { width: 180px; }
+    .ciclo-input    { width: 110px; }
+
+    .header-btn {
       font-family: inherit;
       font-size: 11.5px;
       font-weight: 600;
@@ -156,10 +159,17 @@
       border-radius: 7px;
       padding: 5px 12px;
       cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      white-space: nowrap;
     }
 
-    .reset-btn:hover { border-color: #aaa; color: var(--charcoal); }
+    .header-btn:hover { border-color: #aaa; color: var(--charcoal); }
+
+    .header-btn.copied {
+      border-color: var(--charcoal);
+      color: var(--charcoal);
+      background: var(--bg);
+    }
 
     /* ── BODY (coluna única scrollável) ─────── */
     .pdi-body {
@@ -171,20 +181,20 @@
     .pdi-column {
       max-width: 720px;
       margin: 0 auto;
-      padding: 36px 28px 72px;
+      padding: 40px 28px 80px;
       display: flex;
       flex-direction: column;
-      gap: 36px;
+      gap: 44px;
     }
 
     /* ── SECTION LABEL (shared) ──────────────── */
     .section-label {
-      font-size: 9.5px;
+      font-size: 10.5px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 10px;
+      margin-bottom: 14px;
       display: block;
     }
 
@@ -230,14 +240,14 @@
     .focos-container {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .foco-card {
       background: var(--white);
       border: 1.5px solid var(--border);
       border-radius: 11px;
-      padding: 16px 18px 14px;
+      padding: 18px 20px 16px;
     }
 
     .foco-row {
@@ -248,13 +258,13 @@
 
     /* ── AÇÕES — borda lateral de hierarquia ─── */
     .acoes-list {
-      margin-top: 12px;
+      margin-top: 14px;
       margin-left: 10px;
       padding-left: 14px;
       border-left: 1.5px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .acao-item { display: flex; flex-direction: column; }
@@ -349,40 +359,43 @@
     .add-btn:hover { border-color: #aaa; color: var(--charcoal); }
     .add-btn:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
 
-    /* ── PILAR SELECTOR ──────────────────────── */
-    .pilar-selector {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 10px;
-      padding-left: 23px; /* alinha com o início do textarea */
-    }
-
-    .pilar-chip {
+    /* ── PILAR SELECT (categoria do foco) ────── */
+    .pilar-select {
       font-family: inherit;
       font-size: 10.5px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      padding: 3px 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 28px 5px 13px;
       border-radius: 20px;
-      border: 1.5px solid var(--border);
-      background: none;
+      border: 1.5px dashed #ddd;
+      background-color: transparent;
       color: #bbb;
       cursor: pointer;
-      transition: border-color 0.12s, color 0.12s, background 0.12s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none'><path d='M2 4 L5 7 L8 4' stroke='%23bbb' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 10px;
+      margin-bottom: 12px;
+      transition: border-color 0.14s, color 0.14s, background-color 0.14s;
       line-height: 1.5;
     }
 
-    .pilar-chip:hover {
-      border-color: #aaa;
-      color: var(--charcoal);
+    .pilar-select:hover { border-color: #aaa; color: var(--charcoal); }
+
+    .pilar-select.filled {
+      border: 1.5px solid var(--charcoal);
+      background-color: var(--charcoal);
+      color: var(--white);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none'><path d='M2 4 L5 7 L8 4' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/></svg>");
     }
 
-    .pilar-chip.selected {
-      background: var(--charcoal);
-      border-color: var(--charcoal);
-      color: var(--white);
-    }
+    .pilar-select.filled:hover { border-color: var(--charcoal); }
+
+    .pilar-select option { color: var(--charcoal); background: var(--white); }
 
     .add-foco-btn {
       font-size: 11.5px;
@@ -450,9 +463,16 @@
         <span class="header-sub">Plano de Desenvolvimento Individual</span>
       </div>
       <div class="header-right">
-        <label for="liderado-name">Liderado</label>
-        <input class="liderado-input" id="liderado-name" type="text" placeholder="Nome do liderado" autocomplete="off" />
-        <button class="reset-btn" onclick="resetPDI()">Reiniciar</button>
+        <div class="header-field">
+          <label for="liderado-name">Liderado</label>
+          <input class="header-input liderado-input" id="liderado-name" type="text" placeholder="Nome do liderado" autocomplete="off" />
+        </div>
+        <div class="header-field">
+          <label for="ciclo-name">Ciclo</label>
+          <input class="header-input ciclo-input" id="ciclo-name" type="text" placeholder="Q1 2026" autocomplete="off" />
+        </div>
+        <button class="header-btn" id="export-btn" onclick="exportPDI()">Exportar</button>
+        <button class="header-btn" onclick="resetPDI()">Reiniciar</button>
       </div>
     </header>
 
@@ -496,11 +516,8 @@ function autoGrow(el) {
   el.style.height = el.scrollHeight + 'px';
 }
 
-function selectPilar(chip) {
-  const selector = chip.closest('.pilar-selector');
-  const wasSelected = chip.classList.contains('selected');
-  selector.querySelectorAll('.pilar-chip').forEach(c => c.classList.remove('selected'));
-  if (!wasSelected) chip.classList.add('selected');
+function onPilarChange(sel) {
+  sel.classList.toggle('filled', !!sel.value);
 }
 
 // ── Papel do líder ────────────────────────────────────────
@@ -589,17 +606,18 @@ function createFocoCard() {
   const card = document.createElement('div');
   card.className = 'foco-card';
   card.innerHTML = `
+    <select class="pilar-select" onchange="onPilarChange(this)">
+      <option value="">Selecione um pilar</option>
+      <option>Experiência</option>
+      <option>Sistemas</option>
+      <option>Estratégia</option>
+      <option>Influência</option>
+      <option>Descoberta</option>
+    </select>
     <div class="foco-row">
       <span class="list-bullet">◆</span>
       <textarea class="list-input foco-input" placeholder="Descreva o foco do ciclo" rows="1" oninput="autoGrow(this)"></textarea>
       <button class="remove-btn" onclick="removeFoco(this)" title="Remover">×</button>
-    </div>
-    <div class="pilar-selector">
-      <button class="pilar-chip" onclick="selectPilar(this)">Experiência</button>
-      <button class="pilar-chip" onclick="selectPilar(this)">Sistemas</button>
-      <button class="pilar-chip" onclick="selectPilar(this)">Estratégia</button>
-      <button class="pilar-chip" onclick="selectPilar(this)">Influência</button>
-      <button class="pilar-chip" onclick="selectPilar(this)">Descoberta</button>
     </div>
     <div class="acoes-list"></div>
     <button class="add-btn add-acao-btn" onclick="addAcao(this.closest('.foco-card'))">+ Adicionar ação</button>
@@ -641,9 +659,77 @@ function updateFocosCounter() {
 
 function resetPDI() {
   document.getElementById('liderado-name').value = '';
+  document.getElementById('ciclo-name').value = '';
   document.getElementById('perfil-textarea').value = '';
   document.getElementById('focos-container').innerHTML = '';
   init();
+}
+
+// ── Export ────────────────────────────────────────────────
+
+function exportPDI() {
+  const liderado = document.getElementById('liderado-name').value.trim();
+  const ciclo    = document.getElementById('ciclo-name').value.trim();
+  const perfil   = document.getElementById('perfil-textarea').value.trim();
+
+  const focos = [...document.querySelectorAll('.foco-card')].map(card => ({
+    pilar: card.querySelector('.pilar-select').value,
+    texto: card.querySelector('.foco-input').value.trim(),
+    acoes: [...card.querySelectorAll('.acao-item')].map(a => ({
+      texto: a.querySelector('.acao-input').value.trim(),
+      papeis: [...a.querySelectorAll('.papel-item textarea')]
+                .map(p => p.value.trim()).filter(Boolean)
+    })).filter(a => a.texto || a.papeis.length)
+  })).filter(f => f.texto || f.acoes.length);
+
+  // Vazio?
+  if (!liderado && !ciclo && !perfil && focos.length === 0) {
+    flashExportBtn('Vazio');
+    return;
+  }
+
+  const lines = [];
+  lines.push(`PDI${liderado ? ' — ' + liderado : ''}`);
+  if (ciclo) lines.push(`Ciclo: ${ciclo}`);
+  lines.push('');
+
+  if (perfil) {
+    lines.push('PERFIL ATUAL');
+    lines.push(perfil);
+    lines.push('');
+  }
+
+  if (focos.length) {
+    lines.push('FOCOS DO CICLO');
+    lines.push('');
+    focos.forEach((f, i) => {
+      const head = `${i + 1}.${f.pilar ? ' [' + f.pilar + ']' : ''}${f.texto ? ' ' + f.texto : ''}`;
+      lines.push(head);
+      f.acoes.forEach(a => {
+        if (a.texto) lines.push(`   → ${a.texto}`);
+        a.papeis.forEach(p => lines.push(`     ○ ${p}`));
+      });
+      lines.push('');
+    });
+  }
+
+  const text = lines.join('\n').trimEnd();
+  navigator.clipboard.writeText(text).then(
+    () => flashExportBtn('Copiado!'),
+    () => flashExportBtn('Erro')
+  );
+}
+
+function flashExportBtn(label) {
+  const btn = document.getElementById('export-btn');
+  const original = btn.textContent;
+  btn.textContent = label;
+  btn.classList.add('copied');
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => {
+    btn.textContent = original;
+    btn.classList.remove('copied');
+  }, 1800);
 }
 
 function init() {
