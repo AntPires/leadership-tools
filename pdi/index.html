@@ -242,7 +242,7 @@
 
     .foco-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 7px;
     }
 
@@ -261,7 +261,7 @@
 
     .acao-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 7px;
     }
 
@@ -278,7 +278,7 @@
 
     .papel-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 7px;
     }
 
@@ -290,23 +290,28 @@
       width: 16px;
       text-align: center;
       user-select: none;
+      padding-top: 9px; /* alinha com a primeira linha do textarea */
     }
 
     .list-bullet.muted { color: #bbb; }
     .list-bullet.soft  { color: var(--muted); }
 
-    /* ── INPUTS ──────────────────────────────── */
+    /* ── INPUTS (textarea auto-grow) ────────── */
     .list-input {
       flex: 1;
       font-family: inherit;
-      font-size: 12.5px;
+      font-size: 13px;
+      line-height: 1.65;
       color: var(--charcoal);
       background: var(--bg);
       border: 1.5px solid var(--border);
       border-radius: 7px;
-      padding: 6px 10px;
+      padding: 8px 12px;
       outline: none;
       transition: border-color 0.15s;
+      resize: none;
+      overflow: hidden;
+      min-height: 38px;
     }
 
     .list-input:focus { border-color: var(--charcoal); background: var(--white); }
@@ -323,6 +328,7 @@
       padding: 2px 5px;
       transition: color 0.12s;
       flex-shrink: 0;
+      margin-top: 6px; /* alinha com a primeira linha do textarea */
     }
 
     .remove-btn:hover { color: var(--charcoal); }
@@ -450,6 +456,11 @@ const MAX_FOCOS = 3;
 const MAX_ACOES = 3;
 const MAX_PAPEL = 3;
 
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
 // ── Papel do líder ────────────────────────────────────────
 
 function addPapel(acaoItem) {
@@ -459,11 +470,11 @@ function addPapel(acaoItem) {
   item.className = 'papel-item';
   item.innerHTML = `
     <span class="list-bullet soft">○</span>
-    <input type="text" class="list-input" placeholder="Ex: Abrir portas para Design Review com outros times" />
+    <textarea class="list-input" placeholder="Descreva o compromisso do líder" rows="1" oninput="autoGrow(this)"></textarea>
     <button class="remove-btn" onclick="removePapel(this)" title="Remover">×</button>
   `;
   list.appendChild(item);
-  item.querySelector('input').focus();
+  item.querySelector('textarea').focus();
   updateAddPapelBtn(acaoItem);
 }
 
@@ -474,7 +485,7 @@ function removePapel(btn) {
   if (list.children.length > 1) {
     item.remove();
   } else {
-    item.querySelector('input').value = '';
+    item.querySelector('textarea').value = '';
   }
   updateAddPapelBtn(acaoItem);
 }
@@ -492,7 +503,7 @@ function createAcaoItem() {
   item.innerHTML = `
     <div class="acao-row">
       <span class="list-bullet muted">→</span>
-      <input type="text" class="list-input acao-input" placeholder="Ex: Conduzir teste de usabilidade com clientes no Q2" />
+      <textarea class="list-input acao-input" placeholder="Descreva a ação interna" rows="1" oninput="autoGrow(this)"></textarea>
       <button class="remove-btn" onclick="removeAcao(this)" title="Remover">×</button>
     </div>
     <div class="papel-list"></div>
@@ -538,7 +549,7 @@ function createFocoCard() {
   card.innerHTML = `
     <div class="foco-row">
       <span class="list-bullet">◆</span>
-      <input type="text" class="list-input foco-input" placeholder="Ex: Ampliar capacidade de descoberta — entrevistas, hipóteses" />
+      <textarea class="list-input foco-input" placeholder="Descreva o foco do ciclo" rows="1" oninput="autoGrow(this)"></textarea>
       <button class="remove-btn" onclick="removeFoco(this)" title="Remover">×</button>
     </div>
     <div class="acoes-list"></div>
