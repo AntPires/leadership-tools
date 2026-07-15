@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leadership Tools — Moving Motivators</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/shared.css">
+  <style>
+    /* ── BODY ─────────────────────────────────── */
+    .mm-body {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg);
+      padding: 24px 28px 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── STEP INDICATOR ───────────────────────── */
+    .mm-steps { display: flex; justify-content: center; margin-bottom: 18px; }
+
+    /* segmented control (mesmo padrão do .mode-toggle da Ladder) */
+    .mm-toggle {
+      display: inline-flex;
+      gap: 3px;
+      background: rgba(20,20,20,0.05);   /* o body já é --bg, então um tom + escuro */
+      border-radius: 8px;
+      padding: 3px;
+    }
+
+    .mm-step {
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #aaa;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.12s, color 0.12s, box-shadow 0.12s;
+      white-space: nowrap;
+    }
+    .mm-step:not(.active):hover { color: var(--muted); }
+    .mm-step.active {
+      background: var(--white);
+      color: var(--charcoal);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+
+    .mm-instruction { font-size: 13px; color: var(--muted); margin-top: 20px; line-height: 1.6; text-align: center; }
+
+    /* ── AÇÕES (exportar) — padrão .ladder-actions ── */
+    .mm-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ── IDENTIDADE (nome + mês/ano, padrão Ladder) ── */
+    .mm-identity { text-align: center; margin-bottom: 18px; min-height: 30px; }
+    .mm-name {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--charcoal);
+      letter-spacing: -0.04em;
+      display: none;
+    }
+    .mm-date { font-size: 11.5px; color: #bbb; margin-top: 2px; display: none; }
+
+    .mm-view { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+    .mm-view[hidden] { display: none; }
+
+    /* ── CARD ─────────────────────────────────── */
+    .mm-card {
+      width: 100%;
+      min-height: 261px;
+      flex: 1 1 auto;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;                 /* Figma: display ↔ texto */
+      cursor: grab;
+      user-select: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .mm-card:active { cursor: grabbing; }
+    .mm-card.dragging { opacity: 0.35; }
+
+    .mm-icon {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .mm-card-text { display: flex; flex-direction: column; gap: 8px; } /* Figma: título ↔ desc */
+
+    .mm-title {
+      font-family: 'Landour', 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.36px;
+      line-height: 1.05;
+      color: #141414;
+    }
+    .mm-desc { font-size: 10px; line-height: 1.2; color: #141414; }
+
+    /* Compact (usado no passo 2) */
+    .mm-card.compact { min-height: 0; flex: none; padding: 10px; gap: 10px; }
+    .mm-card.compact .mm-title { font-size: 13px; text-align: center; }
+    .mm-card.compact .mm-desc { display: none; }
+
+    /* ── SCALE (passo 1) ──────────────────────── */
+    /* centraliza verticalmente o bloco (cards + régua) */
+    .scale-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    /* só os cards rolam na horizontal (scrollbar oculta, scroll mantido) */
+    .cards-scroll {
+      overflow-x: auto;
+      padding: 4px 4px 8px;
+      scrollbar-width: none;        /* Firefox */
+      -ms-overflow-style: none;     /* IE/Edge legado */
+    }
+    .cards-scroll::-webkit-scrollbar { display: none; }  /* WebKit */
+
+    .scale-col { display: flex; flex-direction: column; gap: 10px; width: max-content; }
+
+    .scale-slots { display: grid; grid-template-columns: repeat(10, 179px); gap: 14px; align-items: stretch; }
+
+    .scale-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+    .scale-slot.drag-over .mm-card { box-shadow: 0 0 0 2px var(--charcoal); }
+
+    .slot-rank { text-align: center; font-size: 15px; font-weight: 700; color: #c4c4c4; }
+    .scale-slot.top5 .slot-rank { color: #43ab73; }
+
+    /* TOP 5 bracket */
+    .top5-track { display: grid; grid-template-columns: repeat(10, 179px); gap: 14px; }
+    .top5-track .bracket {
+      grid-column: 6 / 11;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #43ab73;
+      border-top: 2px solid #9adcb0;
+      padding-top: 6px;
+    }
+
+
+    /* ── GRID (passo 2) ───────────────────────── */
+    .mm-grid {
+      display: grid;
+      grid-template-columns: 84px repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 940px;
+      margin: 0 auto;
+    }
+
+    .row-label { display: flex; align-items: center; font-size: 13.5px; font-weight: 700; }
+    .row-label.plus    { color: #2fa968; }
+    .row-label.neutral { color: var(--muted); }
+    .row-label.minus   { color: #e2542f; }
+
+    .grid-cell {
+      min-height: 132px;
+      border: 1.5px dashed #d5d5d5;
+      border-radius: 9px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.12s, background 0.12s;
+    }
+    .grid-cell.plus    { background: #f0faf3; border-color: #cdeed8; }
+    .grid-cell.neutral { background: #fafafa; }
+    .grid-cell.minus   { background: #fdf1ee; border-color: #f5d5cb; }
+    .grid-cell.drag-over { border-color: var(--charcoal); }
+
+    .mm-grid-caption {
+      display: grid;
+      grid-template-columns: 84px repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 940px;
+      margin: 8px auto 0;
+    }
+    .mm-grid-caption .bracket {
+      grid-column: 2 / 7;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #43ab73;
+      border-top: 2px solid #9adcb0;
+      padding-top: 5px;
+    }
+
+    .mm-legends { margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .mm-legend { font-size: 12px; display: flex; align-items: center; gap: 8px; color: var(--muted); }
+    .mm-legend .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .mm-legend.plus  .dot { background: #2fa968; }
+    .mm-legend.minus .dot { background: #e2542f; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-bcotransp.svg" alt="Wave" width="28" height="28">
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="../ladder/index.html" data-tooltip="Ladder">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M2 14 L2 10 L6 10 L6 6 L10 6 L10 2 L14 2"
+            stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="nav-item" href="../pdi/index.html" data-tooltip="PDI">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2L9.6 5.4 13.4 6 10.7 8.6 11.4 12.4 8 10.7 4.6 12.4 5.3 8.6 2.6 6 6.4 5.4Z"
+            stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="nav-item active" href="#" data-tooltip="Moving Motivators">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="6.2" cy="7.2" r="0.7" fill="currentColor"/>
+          <circle cx="9.8" cy="7.2" r="0.7" fill="currentColor"/>
+          <path d="M5.5 10 Q8 12 10.5 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1>Moving Motivators</h1>
+        <span class="header-sub">Descubra e ordene o que te motiva no trabalho</span>
+      </div>
+      <div class="header-right">
+        <div class="header-field">
+          <label for="designer-name">Designer</label>
+          <input class="input designer-input" id="designer-name" type="text" placeholder="Nome do designer" autocomplete="off" oninput="updateIdentity()" />
+        </div>
+        <button class="btn btn-secondary btn-slim" onclick="resetMM()">Reiniciar</button>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="mm-body">
+      <div class="mm-steps">
+        <div class="mm-toggle">
+          <button class="mm-step active" id="step-tab-1" onclick="goStep(1)">1 · Ordenar</button>
+          <button class="mm-step" id="step-tab-2" onclick="goStep(2)">2 · Estado atual</button>
+        </div>
+      </div>
+
+      <!-- STEP 1 -->
+      <section class="mm-view" id="view-1">
+        <div class="scale-center">
+          <div class="mm-identity">
+            <div class="mm-name"></div>
+            <div class="mm-date"></div>
+          </div>
+          <div class="cards-scroll">
+            <div class="scale-col">
+              <div class="scale-slots" id="slots"></div>
+              <div class="top5-track"><div class="bracket">TOP 5</div></div>
+            </div>
+          </div>
+          <p class="mm-instruction">Reordene os cards arrastando, do que <strong>menos</strong> te motiva (esquerda) ao que <strong>mais</strong> te motiva (direita). As 5 posições à direita formam o seu Top 5.</p>
+        </div>
+      </section>
+
+      <!-- STEP 2 -->
+      <section class="mm-view" id="view-2" hidden>
+        <div class="scale-center">
+          <div class="mm-identity">
+            <div class="mm-name"></div>
+            <div class="mm-date"></div>
+          </div>
+          <div class="mm-grid" id="grid"></div>
+          <div class="mm-grid-caption"><div class="bracket">TOP 5</div></div>
+          <div class="mm-legends">
+            <div class="mm-legend plus"><span class="dot"></span> Sinto isso no meu trabalho hoje em dia</div>
+            <div class="mm-legend minus"><span class="dot"></span> Não me sinto cumprindo estas motivações</div>
+          </div>
+          <p class="mm-instruction">Para cada um dos seus <strong>5 principais</strong> motivadores, arraste para <strong>cima</strong> ou para <strong>baixo</strong> conforme sente que ele está representado no seu trabalho hoje.</p>
+        </div>
+      </section>
+
+      <!-- Ações (exporta o passo atual) -->
+      <div class="mm-actions">
+        <button class="btn btn-secondary" id="export-text-btn" onclick="exportMMText()">Exportar texto</button>
+        <button class="btn btn-primary" id="export-image-btn" onclick="exportMMImage()">Exportar imagem</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const MOTIVATORS = [
+  { id:'relacoes', name:'Relações', color:'#FF4677', desc:'Valorizo relacionamentos interpessoais, conexão com colegas. Gosto de me sentir parte do time.', bmp:'000000000000000000000000000000000000000000000000000000000000000000111100000001111000001111110000011111100011111111000111111110011111111101111111110011111111111111111110011111111111111111110001111111111111111100000111111111111111000000011111111111110000000001111111111100000000000111111111000000000000011111110000000000000001111100000000000000000111000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000' },
+  { id:'aceitacao', name:'Aceitação', color:'#FA5760', desc:'Ser aceito pelas pessoas ao redor. Ter aprovação sobre quem eu sou, o que faço e o meu impacto.', bmp:'000000000000000000000000111111111111111000000111111111111111000000111111111111011000000111111111111011000000111100000011011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100001110011000000111100001100011000000111100001100011000000111100001100011000000111100001100011000000111100011000011000000111100011000011000000111111111000011000000111111110000011000' },
+  { id:'status', name:'Status', color:'#EF5F3A', desc:'Receber reconhecimento. Que meu cargo, minha reputação ou minha contribuição seja reconhecida.', bmp:'000000000000000000000000000000000000000000000001111111111100000000011111111111110000001111111111111111100001111111111111111100001111111111111111100000001111111111100000000000111111111000000000000011111110000000000000001111100000000000000000111000000000000000000111000000000000000000111000000000000000000111000000000000000011111110000000000000011111110000000000001111111111100000000001111111111100000000000000000000000000000000000000000000000' },
+  { id:'proposito', name:'Propósito', color:'#ECB143', desc:'Fazer um trabalho que signifique algo. Entender como o meu trabalho se conecta com algo maior.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000010000000000000000000111000000000000000000111000000000000000001111100000000000000011111110000000000001111111111100000000111111111111111000000001111111111100000000000011111110000000000000001111100000000000000000111000000000000000000111000000000000000000010000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000' },
+  { id:'influencia', name:'Influência', color:'#B8D94E', desc:'Ter poder sobre o que acontece ao redor. Impactar decisões, ter espaço de ação e influenciar decisões.', bmp:'000000000000000000000000000111111111000000000001111000111100000000111000000000111000000110011111110011000001100111000111001100011001100000001100110011011001111100110110011011011101110110110010010011000110010010010010010010010010010010010011000110010010011011011101110110110011011001111100110110011001100000001100110001100111000111001100000110011111110011000000111000000000111000000001111000111100000000000111111111000000000000000000000000000' },
+  { id:'honra', name:'Honra', color:'#2CB66D', desc:'Sentir orgulho de como trabalho. Ver meus valores pessoais refletidos no meu dia a dia.', bmp:'000000000000000000000000000011111110000000000000011111110000000000000011111110000000000000011111110000000000000000011000000000000000000011000000000000000000011000000000000000011111110000000000000111000111000000000001100000001100000000011001111100110000000011011101110110000000010011000110010000000010010011010010000000010011011110010000000011011101110110000000011001111100110000000001100000001100000000000111000111000000000000011111110000000' },
+  { id:'curiosidade', name:'Curiosidade', color:'#24BCA5', desc:'Ter novas experiências, investigar, aprender e aplicar novos métodos, ideias e processos.', bmp:'000000000000000000000000000000000000000000000011111110000000000000111101111000000000001110000011100000000001100000001100000000001100000001100000000001000000000100000000001100000001100000000001100000001100000000001110000011100000000000111101111000000000000011111111100000000000000000000110000000000000000000011000000000000000000001100000000000000000000110000000000000000000011000000000000000000001100000000000000000000000000000000000000000000' },
+  { id:'maestria', name:'Maestria', color:'#2EAAC6', desc:'Projetos que impulsionem o meu crescimento, sentir-me competente e desafiado pra crescer.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000000000111000000000000000000111000000000000000000111000000000000000111111000000000000000111111000000000000000111111000000000000111111111000000000000111111111000000000000111111111000000000111111111111000000000111111111111000000000111111111111000000111111111111111000000111111111111111000000111111111111111000000000000000000000000000000000000000000000000000000000000000000' },
+  { id:'liberdade', name:'Liberdade', color:'#388BF8', desc:'Ter autonomia em minhas tarefas. Independência para escolher caminhos e tomar decisões.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000011000000000000000000111100000000000000001111110000000000000011111110000000000000111111111000000000001111111111000000000001111111111111110000000111111111111111000000011111111111110000000001111111111100000000111111111110000000011111110000000000000111110000000000000001111100000000000000011111000000000000000000000000000000000000000000000000000000000000000000000000000000' },
+  { id:'ordem', name:'Ordem', color:'#7181FF', desc:'Ter estrutura, regras, previsibilidade. Trabalhar com estabilidade para saber o que esperar.', bmp:'111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111' },
+];
+
+const N = 21;
+const byId = Object.fromEntries(MOTIVATORS.map(m => [m.id, m]));
+const LABELS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+
+// posições do eixo (index 0 = label 10 … index 9 = label 1); guarda id ou null
+const positions = new Array(10).fill(null);
+// impacto no passo 2: id -> -1 | 0 | 1
+const impacto = {};
+let dragId = null;
+let currentStep = 1;
+
+// ── Ícone (SVG data-uri de pontos) ────────────────────────
+function buildIcon(m) {
+  const on = 'rgba(0,0,0,0.82)', off = 'rgba(0,0,0,0.14)';
+  let dots = '';
+  for (let r = 0; r < N; r++) {
+    for (let c = 0; c < N; c++) {
+      const bit = m.bmp[r * N + c] === '1';
+      dots += `<circle cx="${c + 0.5}" cy="${r + 0.5}" r="0.143" fill="${bit ? on : off}"/>`;
+    }
+  }
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${N} ${N}'>${dots}</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
+MOTIVATORS.forEach(m => { m._icon = buildIcon(m); });
+
+// ── Card ──────────────────────────────────────────────────
+function makeCard(m, compact) {
+  const el = document.createElement('div');
+  el.className = 'mm-card' + (compact ? ' compact' : '');
+  el.style.background = m.color;
+  el.draggable = true;
+  el.dataset.id = m.id;
+  el.innerHTML =
+    `<div class="mm-icon"></div>` +
+    `<div class="mm-card-text">` +
+      `<div class="mm-title">${m.name}</div>` +
+      (compact ? '' : `<div class="mm-desc">${m.desc}</div>`) +
+    `</div>`;
+  el.querySelector('.mm-icon').style.backgroundImage = m._icon;
+  el.addEventListener('dragstart', e => {
+    dragId = m.id;
+    el.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', m.id);
+  });
+  el.addEventListener('dragend', () => { el.classList.remove('dragging'); dragId = null; });
+  return el;
+}
+
+// ── Drop helpers ──────────────────────────────────────────
+function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function leaveDrop(e) { e.currentTarget.classList.remove('drag-over'); }
+
+// ── Passo 1 ───────────────────────────────────────────────
+function renderStep1() {
+  const slots = document.getElementById('slots');
+  slots.innerHTML = '';
+  for (let i = 0; i < 10; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'scale-slot' + (i >= 5 ? ' top5' : '');
+    slot.dataset.slot = i;
+    slot.addEventListener('dragover', allowDrop);
+    slot.addEventListener('dragleave', leaveDrop);
+    slot.addEventListener('drop', onDropSlot);
+    slot.appendChild(makeCard(byId[positions[i]], false));
+    const rank = document.createElement('div');
+    rank.className = 'slot-rank';
+    rank.textContent = LABELS[i];
+    slot.appendChild(rank);
+    slots.appendChild(slot);
+  }
+}
+
+function onDropSlot(e) {
+  e.preventDefault();
+  const slot = e.currentTarget;
+  slot.classList.remove('drag-over');
+  const idx = +slot.dataset.slot;
+  const id = dragId;
+  if (!id) return;
+  const from = positions.indexOf(id);
+  if (from === idx) return;
+  // reorder: tira o card da origem e insere no destino;
+  // os cards entre origem e destino deslocam uma posição
+  positions.splice(from, 1);
+  positions.splice(idx, 0, id);
+  renderStep1();
+}
+
+// ── Passo 2 ───────────────────────────────────────────────
+function renderStep2() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const cols = [5, 6, 7, 8, 9].map(i => positions[i]);  // Top 5, ordem label 5→1
+  const rows = [
+    { v: 1,  cls: 'plus',    label: '+1' },
+    { v: 0,  cls: 'neutral', label: 'Neutral' },
+    { v: -1, cls: 'minus',   label: '−1' },
+  ];
+  rows.forEach(row => {
+    const rl = document.createElement('div');
+    rl.className = 'row-label ' + row.cls;
+    rl.textContent = row.label;
+    grid.appendChild(rl);
+    cols.forEach((id, ci) => {
+      const cell = document.createElement('div');
+      cell.className = 'grid-cell ' + row.cls;
+      cell.dataset.col = ci;
+      cell.dataset.val = row.v;
+      cell.addEventListener('dragover', allowDrop);
+      cell.addEventListener('dragleave', leaveDrop);
+      cell.addEventListener('drop', onDropCell);
+      if ((impacto[id] ?? 0) === row.v) cell.appendChild(makeCard(byId[id], true));
+      grid.appendChild(cell);
+    });
+  });
+}
+
+function onDropCell(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  const id = dragId;
+  if (!id) return;
+  // só move os cards do Top 5; posiciona na própria coluna, na linha escolhida
+  const top5 = [5, 6, 7, 8, 9].map(i => positions[i]);
+  if (!top5.includes(id)) return;
+  impacto[id] = +e.currentTarget.dataset.val;
+  renderStep2();
+}
+
+// ── Navegação de passos ───────────────────────────────────
+function goStep(n) {
+  if (n === 2 && !positions.every(x => x)) return;
+  currentStep = n;
+  document.getElementById('view-1').hidden = n !== 1;
+  document.getElementById('view-2').hidden = n !== 2;
+  document.getElementById('step-tab-1').classList.toggle('active', n === 1);
+  document.getElementById('step-tab-2').classList.toggle('active', n === 2);
+  if (n === 2) renderStep2();
+}
+
+// ── Identidade (nome + mês/ano, padrão Ladder) ────────────
+function updateIdentity() {
+  const name = document.getElementById('designer-name').value.trim();
+  const date = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  // há um bloco de identidade por passo — atualiza todos
+  document.querySelectorAll('.mm-name').forEach(el => {
+    el.textContent = name;
+    el.style.display = name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.mm-date').forEach(el => {
+    el.textContent = date;
+    el.style.display = name ? 'block' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXPORT (padrão Ladder: texto + imagem)
+// ═══════════════════════════════════════════════════════════
+
+const EXP = { pad: 48, cardW: 179, gap: 14, ip: 16, icon: 147, gapText: 24, gapTitle: 8, lineH: 12, titleH: 19 };
+const FONT_UI = 'Inter, Helvetica, sans-serif';
+
+function formatDateTitle() {
+  const s = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function escXml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;' }[c]));
+}
+
+function flashMMBtn(id, label) {
+  const btn = document.getElementById(id);
+  if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+  btn.textContent = label;
+  btn.classList.add('copied');
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => {
+    btn.textContent = btn.dataset.label;
+    btn.classList.remove('copied');
+  }, 1800);
+}
+
+// ── Export texto ──────────────────────────────────────────
+function exportMMText() {
+  const designer = document.getElementById('designer-name').value.trim();
+  const lines = [];
+  lines.push(`Moving Motivators${designer ? ' — ' + designer : ''}`);
+  lines.push(formatDateTitle());
+  lines.push('');
+
+  if (currentStep === 1) {
+    lines.push('ORDENAÇÃO (do que mais ao que menos motiva)');
+    lines.push('');
+    for (let i = 9; i >= 0; i--) {
+      const rank = String(LABELS[i]).padStart(2, ' ');
+      lines.push(`${rank}. ${byId[positions[i]].name}${i >= 5 ? '  ★' : ''}`);
+    }
+    lines.push('');
+    lines.push('★ = Top 5');
+  } else {
+    lines.push('TOP 5 — o quanto está representado no trabalho hoje');
+    lines.push('');
+    const larg = Math.max(...[9,8,7,6,5].map(i => byId[positions[i]].name.length));
+    [9,8,7,6,5].forEach((i, k) => {
+      const id = positions[i];
+      const v = impacto[id] ?? 0;
+      const marca = v === 1 ? '+1' : v === -1 ? '−1' : ' 0';
+      lines.push(`${k + 1}. ${byId[id].name.padEnd(larg + 2, ' ')}${marca}`);
+    });
+    lines.push('');
+    lines.push('+1 = sinto isso no meu trabalho hoje em dia');
+    lines.push('−1 = não me sinto cumprindo esta motivação');
+  }
+
+  navigator.clipboard.writeText(lines.join('\n')).then(
+    () => flashMMBtn('export-text-btn', 'Copiado!'),
+    () => flashMMBtn('export-text-btn', 'Erro')
+  );
+}
+
+// ── Export imagem ─────────────────────────────────────────
+const _measure = document.createElement('canvas').getContext('2d');
+function wrapText(text, maxW, font) {
+  _measure.font = font;
+  const words = String(text).split(' ');
+  const lines = [];
+  let line = '';
+  for (const w of words) {
+    const test = line ? line + ' ' + w : w;
+    if (_measure.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+// Landour embutida em base64 — sem isso o PNG cai pra fonte do sistema
+let _fontCss = null;
+async function loadFontCss() {
+  if (_fontCss !== null) return _fontCss;
+  try {
+    const res = await fetch('../assets/fonts/Landour-BoldDisplay.woff2');
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    let bin = '';
+    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    _fontCss = `@font-face{font-family:'Landour';src:url(data:font/woff2;base64,${btoa(bin)}) format('woff2');font-weight:700;font-style:normal;}`;
+  } catch (e) {
+    _fontCss = '';
+  }
+  return _fontCss;
+}
+
+function iconSvgAt(m, x, y, size) {
+  let dots = '';
+  for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+    const bit = m.bmp[r * N + c] === '1';
+    dots += `<circle cx="${c + 0.5}" cy="${r + 0.5}" r="0.143" fill="${bit ? 'rgba(0,0,0,0.82)' : 'rgba(0,0,0,0.14)'}"/>`;
+  }
+  return `<svg x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 ${N} ${N}">${dots}</svg>`;
+}
+
+function headSvg(designer, dateT, W) {
+  if (!designer) return '';
+  return `<text x="${W/2}" y="${EXP.pad + 30}" text-anchor="middle" font-family="${FONT_UI}" font-weight="800" font-size="30" letter-spacing="-1" fill="#141414">${escXml(designer)}</text>`
+       + `<text x="${W/2}" y="${EXP.pad + 52}" text-anchor="middle" font-family="${FONT_UI}" font-weight="500" font-size="14" fill="#bbb">${escXml(dateT)}</text>`;
+}
+
+function bracketSvg(x, w, y) {
+  return `<line x1="${x}" y1="${y}" x2="${x + w}" y2="${y}" stroke="#9adcb0" stroke-width="2"/>`
+       + `<text x="${x + w/2}" y="${y + 19}" text-anchor="middle" font-family="${FONT_UI}" font-weight="700" font-size="11" letter-spacing="1.5" fill="#43ab73">TOP 5</text>`;
+}
+
+function wrapSvg(inner, W, H, fontCss) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`
+       + `<style>${fontCss}</style><rect width="100%" height="100%" fill="#F6F6F4"/>${inner}</svg>`;
+}
+
+function fullCardSvg(m, x, y, h) {
+  const tx = x + EXP.ip;
+  const textTop = y + EXP.ip + EXP.icon + EXP.gapText;
+  const descTop = textTop + EXP.titleH + EXP.gapTitle;
+  const lines = wrapText(m.desc, EXP.cardW - EXP.ip * 2, `400 10px ${FONT_UI}`);
+  let desc = '';
+  lines.forEach((ln, i) => {
+    desc += `<text x="${tx}" y="${descTop + 9 + i * EXP.lineH}" font-family="${FONT_UI}" font-size="10" fill="#141414">${escXml(ln)}</text>`;
+  });
+  return `<rect x="${x}" y="${y}" width="${EXP.cardW}" height="${h}" rx="8" fill="${m.color}"/>`
+       + iconSvgAt(m, tx, y + EXP.ip, EXP.icon)
+       + `<text x="${tx}" y="${textTop + 14}" font-family="Landour, ${FONT_UI}" font-weight="700" font-size="18" letter-spacing="0.36" fill="#141414">${escXml(m.name)}</text>`
+       + desc;
+}
+
+function compactCardSvg(m, x, y, w, h) {
+  const p = 10, titleH = 16, gapT = 6;
+  // o ícone respeita largura E altura disponíveis (descontando o título)
+  const size = Math.min(w - p * 2, h - p * 2 - titleH - gapT);
+  const ix = x + (w - size) / 2;
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${m.color}"/>`
+       + iconSvgAt(m, ix, y + p, size)
+       + `<text x="${x + w/2}" y="${y + h - p}" text-anchor="middle" font-family="Landour, ${FONT_UI}" font-weight="700" font-size="13" fill="#141414">${escXml(m.name)}</text>`;
+}
+
+function buildStep1Svg(designer, dateT, fontCss) {
+  const maxLines = Math.max(...positions.map(id =>
+    wrapText(byId[id].desc, EXP.cardW - EXP.ip * 2, `400 10px ${FONT_UI}`).length));
+  const cardH = EXP.ip + EXP.icon + EXP.gapText + EXP.titleH + EXP.gapTitle + maxLines * EXP.lineH + EXP.ip;
+  const rowW = 10 * EXP.cardW + 9 * EXP.gap;
+  const W = rowW + EXP.pad * 2;
+  const cardsY = EXP.pad + (designer ? 84 : 8);
+  const rankY = cardsY + cardH + 26;
+  const brY = rankY + 14;
+  const H = brY + 30 + EXP.pad;
+
+  let body = '';
+  positions.forEach((id, i) => {
+    const x = EXP.pad + i * (EXP.cardW + EXP.gap);
+    body += fullCardSvg(byId[id], x, cardsY, cardH);
+    body += `<text x="${x + EXP.cardW/2}" y="${rankY}" text-anchor="middle" font-family="${FONT_UI}" font-weight="700" font-size="15" fill="${i >= 5 ? '#43ab73' : '#c4c4c4'}">${LABELS[i]}</text>`;
+  });
+  body += bracketSvg(EXP.pad + 5 * (EXP.cardW + EXP.gap), 5 * EXP.cardW + 4 * EXP.gap, brY);
+
+  return { str: wrapSvg(headSvg(designer, dateT, W) + body, W, H, fontCss), W, H };
+}
+
+function buildStep2Svg(designer, dateT, fontCss) {
+  const colW = 150, gap = 12, labelW = 74, rowH = 132;
+  const cols = [9, 8, 7, 6, 5].map(i => positions[i]);   // rank 1 → 5
+  const W = labelW + gap + 5 * colW + 4 * gap + EXP.pad * 2;
+  const gridY = EXP.pad + (designer ? 84 : 8);
+  const brY = gridY + 3 * rowH + 2 * gap + 14;
+  const H = brY + 30 + EXP.pad;
+
+  const rows = [
+    { v: 1,  label: '+1',      color: '#2fa968', fill: '#f0faf3', stroke: '#cdeed8' },
+    { v: 0,  label: 'Neutral', color: '#7a7a7a', fill: '#fafafa', stroke: '#d5d5d5' },
+    { v: -1, label: '−1',      color: '#e2542f', fill: '#fdf1ee', stroke: '#f5d5cb' },
+  ];
+
+  let body = '';
+  rows.forEach((row, ri) => {
+    const y = gridY + ri * (rowH + gap);
+    body += `<text x="${EXP.pad + labelW - 10}" y="${y + rowH/2 + 5}" text-anchor="end" font-family="${FONT_UI}" font-weight="700" font-size="13.5" fill="${row.color}">${escXml(row.label)}</text>`;
+    cols.forEach((id, ci) => {
+      const x = EXP.pad + labelW + gap + ci * (colW + gap);
+      body += `<rect x="${x}" y="${y}" width="${colW}" height="${rowH}" rx="9" fill="${row.fill}" stroke="${row.stroke}" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+      if ((impacto[id] ?? 0) === row.v) body += compactCardSvg(byId[id], x + 8, y + 8, colW - 16, rowH - 16);
+    });
+  });
+  body += bracketSvg(EXP.pad + labelW + gap, 5 * colW + 4 * gap, brY);
+
+  return { str: wrapSvg(headSvg(designer, dateT, W) + body, W, H, fontCss), W, H };
+}
+
+function rasterize(svgStr, W, H, filename) {
+  const blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = W * 2; canvas.height = H * 2;      // 2x p/ retina
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#F6F6F4';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(b => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(b);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      flashMMBtn('export-image-btn', 'Baixado!');
+    }, 'image/png');
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); flashMMBtn('export-image-btn', 'Erro'); };
+  img.src = url;
+}
+
+async function exportMMImage() {
+  const designer = document.getElementById('designer-name').value.trim();
+  const dateT = formatDateTitle();
+  const fontCss = await loadFontCss();
+  const { str, W, H } = currentStep === 1
+    ? buildStep1Svg(designer, dateT, fontCss)
+    : buildStep2Svg(designer, dateT, fontCss);
+  const slug = (designer || 'designer').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const dslug = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }).replace(/\s+/g, '-');
+  rasterize(str, W, H, `moving-motivators-${currentStep === 1 ? 'ordenacao' : 'estado-atual'}-${slug}-${dslug}.png`);
+}
+
+// ── Reset ─────────────────────────────────────────────────
+function resetMM() {
+  for (const k in impacto) delete impacto[k];
+  fillShuffled();
+  goStep(1);
+  renderStep1();
+}
+
+// ── Init ──────────────────────────────────────────────────
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function fillShuffled() {
+  const order = shuffle(MOTIVATORS.map(m => m.id));
+  for (let i = 0; i < 10; i++) positions[i] = order[i];
+}
+
+fillShuffled();
+renderStep1();
+</script>
+</body>
+</html>

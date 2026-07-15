@@ -3,6 +3,15 @@
    Tokens, app shell, sidebar, header, inputs, buttons, labels
    ═══════════════════════════════════════════════════════════ */
 
+/* ── Display font (títulos de card — Landour) ─────────────── */
+@font-face {
+  font-family: 'Landour';
+  src: url('fonts/Landour-BoldDisplay.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ── Design tokens ─────────────────────────────────────────── */
 :root {
   --charcoal: #141414;
