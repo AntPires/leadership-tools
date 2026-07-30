@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leadership Tools — Ladder</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/shared.css">
   <style>
     /* ── CONTENT ─────────────────────────────── */
@@ -53,7 +50,7 @@
       font-family: inherit;
       font-size: 12.5px;
       font-weight: 600;
-      color: #aaa;
+      color: #9BA0B2;
       background: transparent;
       border: none;
       border-radius: 6px;
@@ -68,7 +65,7 @@
 
     .mode-btn.active {
       background: var(--white);
-      color: var(--charcoal);
+      color: var(--ink);
       box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     }
 
@@ -82,14 +79,14 @@
     .radar-name {
       font-size: 26px;
       font-weight: 800;
-      color: var(--charcoal);
+      color: var(--ink);
       letter-spacing: -0.04em;
       display: none;
     }
 
     .radar-date {
       font-size: 11.5px;
-      color: #bbb;
+      color: #A5A9B8;
       margin-top: 2px;
       display: none;
     }
@@ -108,7 +105,7 @@
       align-items: center;
       gap: 6px;
       font-size: 11.5px;
-      color: #aaa;
+      color: #9BA0B2;
       font-weight: 500;
     }
 
@@ -119,7 +116,7 @@
     .chart-hint {
       margin-top: 12px;
       font-size: 11.5px;
-      color: #bbb;
+      color: #A5A9B8;
       text-align: center;
       line-height: 1.6;
     }
@@ -150,7 +147,7 @@
       font-size: 13px;
       margin-top: 16px;
       line-height: 1.7;
-      color: #c8c8c8;
+      color: #B3B6C3;
     }
 
     .detail-inner { padding: 24px 26px 40px; max-width: 640px; }
@@ -178,7 +175,7 @@
       font-size: 11px;
       font-weight: 700;
       color: var(--white);
-      background: var(--charcoal);
+      background: var(--ink);
       padding: 3px 10px;
       border-radius: 20px;
       white-space: nowrap;
@@ -187,15 +184,15 @@
     .badge-foco {
       font-size: 11px;
       font-weight: 700;
-      color: var(--charcoal);
+      color: var(--ink);
       background: transparent;
-      border: 1.5px dashed var(--charcoal);
+      border: 1.5px dashed var(--lilac);
       padding: 2.5px 9px;
       border-radius: 20px;
       white-space: nowrap;
     }
 
-    .pillar-desc { font-size: 13px; line-height: 1.7; color: #777; margin-bottom: 18px; }
+    .pillar-desc { font-size: 13px; line-height: 1.7; color: #5E6A88; margin-bottom: 18px; }
 
     /* ── PROGRESSING TOGGLE ──────────────────── */
     .progressing-row {
@@ -212,17 +209,17 @@
       user-select: none;
     }
 
-    .progressing-row:hover { border-color: #ccc; }
-    .progressing-row.on { border-color: var(--charcoal); }
+    .progressing-row:hover { border-color: #B3B6C3; }
+    .progressing-row.on { border-color: var(--accent); }
 
     .progressing-row-left { display: flex; flex-direction: column; gap: 2px; }
-    .progressing-label { font-size: 13.5px; font-weight: 600; color: var(--charcoal); }
-    .progressing-sub { font-size: 12px; color: #aaa; }
+    .progressing-label { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+    .progressing-sub { font-size: 12px; color: #9BA0B2; }
 
     .toggle-sw {
       width: 34px;
       height: 19px;
-      background: #D8D8D8;
+      background: #C9CCD8;
       border-radius: 10px;
       position: relative;
       transition: background 0.18s;
@@ -242,7 +239,7 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
 
-    .toggle-sw.on { background: var(--charcoal); }
+    .toggle-sw.on { background: var(--accent); }
     .toggle-sw.on::after { transform: translateX(15px); }
 
     /* ── LEVEL CARDS (read-only) ─────────────── */
@@ -256,9 +253,9 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
 
-    .level-card.has-atual { border-left: 3px solid var(--charcoal); }
-    .level-card.has-foco { border-color: rgba(20,20,20,0.35); border-style: dashed; }
-    .level-card.has-atual.has-foco { border-left: 3px solid var(--charcoal); border-style: solid; border-color: var(--charcoal); }
+    .level-card.has-atual { border-left: 3px solid var(--ink); }
+    .level-card.has-foco { border-color: var(--lilac); border-style: dashed; }
+    .level-card.has-atual.has-foco { border-left: 3px solid var(--ink); border-style: solid; border-color: var(--ink); }
 
     .level-card-top {
       display: flex;
@@ -274,19 +271,19 @@
       padding: 2px 6px;
       border-radius: 4px;
       background: var(--light);
-      color: var(--charcoal);
+      color: var(--ink);
       line-height: 1.5;
       flex-shrink: 0;
     }
 
-    .level-name { font-size: 13.5px; font-weight: 600; color: var(--charcoal); }
+    .level-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
 
-    .level-desc { font-size: 12.5px; line-height: 1.7; color: #888; }
+    .level-desc { font-size: 12.5px; line-height: 1.7; color: #5E6A88; }
 
     .pdi-note {
       margin-top: 20px;
       font-size: 11px;
-      color: #bbb;
+      color: #A5A9B8;
       line-height: 1.6;
       padding: 10px 12px;
       background: var(--white);
@@ -313,7 +310,7 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <img src="../assets/logo-bcotransp.svg" alt="Wave" width="28" height="28">
+      <img src="../assets/logo-bemobi.svg" alt="Bemobi Wave" width="26" height="24">
     </div>
     <nav class="sidebar-nav">
       <a class="nav-item active" href="#" data-tooltip="Ladder">
@@ -367,11 +364,11 @@
           </div>
           <svg id="radar-svg" viewBox="-20 0 640 600" xmlns="http://www.w3.org/2000/svg"></svg>
           <div class="level-legend">
-            <div class="legend-item"><div class="legend-dot" style="background:#EAEAEA;border:1.5px solid #D0D0D0"></div>N1 Pratica</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#BDBDBD"></div>N2 Executa</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#8C8C8C"></div>N3 Eleva</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#4A4A4A"></div>N4 Direciona</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#141414"></div>N5 Expande</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#DCD8E3;border:1.5px solid #C6C5C9"></div>N1 Pratica</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ABAFBE"></div>N2 Executa</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#7A8299"></div>N3 Eleva</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#33405E"></div>N4 Direciona</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#18233C"></div>N5 Expande</div>
           </div>
         </div>
 
@@ -379,13 +376,13 @@
           <div class="mode-toggle">
             <button id="mode-btn-atual" class="mode-btn active" onclick="setEditMode('atual')">
               <svg width="9" height="9" viewBox="0 0 9 9">
-                <circle cx="4.5" cy="4.5" r="4" fill="#141414"/>
+                <circle cx="4.5" cy="4.5" r="4" fill="#18233C"/>
               </svg>
               Status Atual
             </button>
             <button id="mode-btn-foco" class="mode-btn" onclick="setEditMode('foco')">
               <svg width="9" height="9" viewBox="0 0 9 9">
-                <circle cx="4.5" cy="4.5" r="3.2" fill="none" stroke="#141414" stroke-width="1.5" stroke-dasharray="2.8 2"/>
+                <circle cx="4.5" cy="4.5" r="3.2" fill="none" stroke="#18233C" stroke-width="1.5" stroke-dasharray="2.8 2"/>
               </svg>
               Foco de desenvolvimento
             </button>
@@ -400,8 +397,8 @@
         <div class="detail-panel" id="detail-panel">
           <div class="detail-placeholder">
             <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-              <circle cx="28" cy="28" r="25" stroke="#E0E0E0" stroke-width="2"/>
-              <path d="M20 28l5.5 6L36 21" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="28" cy="28" r="25" stroke="#D3D6E0" stroke-width="2"/>
+              <path d="M20 28l5.5 6L36 21" stroke="#D3D6E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <p>Selecione um pilar no radar<br>para explorar as competências<br>e os níveis de atuação.</p>
           </div>
@@ -538,7 +535,7 @@ function buildRadar() {
   for (let l = 1; l <= N_LEVELS; l++) {
     svgEl('circle', {
       cx: CX, cy: CY, r: levelRadius(l),
-      fill: 'none', stroke: '#E2E2E2', 'stroke-width': '1', 'stroke-dasharray': '4 3'
+      fill: 'none', stroke: '#D3D6E0', 'stroke-width': '1', 'stroke-dasharray': '4 3'
     }, svg);
   }
 
@@ -549,7 +546,7 @@ function buildRadar() {
     const end = polar(angle, MAX_R);
     svgEl('line', {
       x1: CX, y1: CY, x2: end.x, y2: end.y,
-      stroke: isProg ? '#888' : '#D5D5D5',
+      stroke: isProg ? '#5E6A88' : '#C6C5C9',
       'stroke-width': isProg ? '2' : '1'
     }, svg);
 
@@ -557,7 +554,7 @@ function buildRadar() {
     if (isProg) {
       svgEl('circle', {
         cx: end.x, cy: end.y, r: '4.5',
-        fill: '#141414', 'pointer-events': 'none'
+        fill: '#18233C', 'pointer-events': 'none'
       }, svg);
     }
   });
@@ -570,7 +567,7 @@ function buildRadar() {
       return `${x},${y}`;
     }).join(' ');
     svgEl('polygon', {
-      points, fill: 'rgba(20,20,20,0.09)', stroke: '#141414',
+      points, fill: 'rgba(24,35,60,0.09)', stroke: '#18233C',
       'stroke-width': '2', 'stroke-linejoin': 'round', 'pointer-events': 'none'
     }, svg);
   }
@@ -583,7 +580,7 @@ function buildRadar() {
       return `${x},${y}`;
     }).join(' ');
     svgEl('polygon', {
-      points, fill: 'none', stroke: '#141414',
+      points, fill: 'none', stroke: '#18233C',
       'stroke-width': '1.5', 'stroke-dasharray': '7 4',
       'stroke-linejoin': 'round', 'pointer-events': 'none'
     }, svg);
@@ -600,7 +597,7 @@ function buildRadar() {
       const g = svgEl('g', { cursor: 'pointer' }, svg);
       const hoverCircle = svgEl('circle', {
         cx: x, cy: y, r: '9',
-        fill: 'rgba(20,20,20,0)', stroke: 'rgba(20,20,20,0)', 'stroke-width': '1.5'
+        fill: 'rgba(24,35,60,0)', stroke: 'rgba(24,35,60,0)', 'stroke-width': '1.5'
       }, g);
       svgEl('circle', { cx: x, cy: y, r: '16', fill: 'transparent', stroke: 'none' }, g);
 
@@ -610,13 +607,13 @@ function buildRadar() {
       g.addEventListener('mouseenter', () => {
         const isActive = editMode === 'atual' ? isCurrentLevel : isTargetLevel;
         if (!isActive) {
-          hoverCircle.setAttribute('fill', 'rgba(20,20,20,0.08)');
-          hoverCircle.setAttribute('stroke', '#888');
+          hoverCircle.setAttribute('fill', 'rgba(24,35,60,0.08)');
+          hoverCircle.setAttribute('stroke', '#5E6A88');
         }
       });
       g.addEventListener('mouseleave', () => {
-        hoverCircle.setAttribute('fill', 'rgba(20,20,20,0)');
-        hoverCircle.setAttribute('stroke', 'rgba(20,20,20,0)');
+        hoverCircle.setAttribute('fill', 'rgba(24,35,60,0)');
+        hoverCircle.setAttribute('stroke', 'rgba(24,35,60,0)');
       });
       g.addEventListener('click', () => {
         if (editMode === 'atual') {
@@ -638,7 +635,7 @@ function buildRadar() {
       if (currentLevels[p.id] > 0) {
         const { x, y } = polar(ANGLES[i], levelRadius(currentLevels[p.id]));
         svgEl('circle', {
-          cx: x, cy: y, r: '5', fill: '#141414', stroke: '#fff', 'stroke-width': '2',
+          cx: x, cy: y, r: '5', fill: '#18233C', stroke: '#fff', 'stroke-width': '2',
           'pointer-events': 'none'
         }, svg);
       }
@@ -651,7 +648,7 @@ function buildRadar() {
       if (targetLevels[p.id] > 0) {
         const { x, y } = polar(ANGLES[i], levelRadius(targetLevels[p.id]));
         svgEl('circle', {
-          cx: x, cy: y, r: '5', fill: '#fff', stroke: '#141414', 'stroke-width': '2',
+          cx: x, cy: y, r: '5', fill: '#fff', stroke: '#18233C', 'stroke-width': '2',
           'pointer-events': 'none'
         }, svg);
       }
@@ -672,27 +669,27 @@ function buildRadar() {
       x, y,
       'text-anchor': anchor,
       'dominant-baseline': 'middle',
-      'font-family': "'Inter', sans-serif",
+      'font-family': "'Google Sans Flex', sans-serif",
       'font-size': '16',
       'font-weight': isProg ? '700' : '500',
-      fill: isProg ? '#141414' : '#999',
+      fill: isProg ? '#18233C' : '#8B93A9',
       'letter-spacing': '-0.3'
     }, g);
     text.textContent = pillar.name;
 
     g.addEventListener('mouseenter', () => {
-      text.setAttribute('fill', '#444');
+      text.setAttribute('fill', '#33405E');
       text.setAttribute('font-weight', '600');
     });
     g.addEventListener('mouseleave', () => {
-      text.setAttribute('fill', isProg ? '#141414' : '#999');
+      text.setAttribute('fill', isProg ? '#18233C' : '#8B93A9');
       text.setAttribute('font-weight', isProg ? '700' : '500');
     });
     g.addEventListener('click', () => selectPillar(pillar.id));
   });
 
   // Center dot
-  svgEl('circle', { cx: CX, cy: CY, r: '3', fill: '#D0D0D0', 'pointer-events': 'none' }, svg);
+  svgEl('circle', { cx: CX, cy: CY, r: '3', fill: '#C6C5C9', 'pointer-events': 'none' }, svg);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -706,8 +703,8 @@ function renderDetail() {
     panel.innerHTML = `
       <div class="detail-placeholder">
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-          <circle cx="28" cy="28" r="25" stroke="#E0E0E0" stroke-width="2"/>
-          <path d="M20 28l5.5 6L36 21" stroke="#E0E0E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="28" cy="28" r="25" stroke="#D3D6E0" stroke-width="2"/>
+          <path d="M20 28l5.5 6L36 21" stroke="#D3D6E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <p>Selecione um pilar no radar<br>para explorar as competências<br>e os níveis de atuação.</p>
       </div>`;
@@ -880,23 +877,41 @@ function flashLadderBtn(id, label) {
   }, 1800);
 }
 
-function exportLadderImage() {
+// Google Sans Flex embutida em base64 — sem isso o PNG cai pra fonte do sistema
+let _fontCss = null;
+async function loadFontCss() {
+  if (_fontCss !== null) return _fontCss;
+  try {
+    const res = await fetch('../assets/fonts/GoogleSansFlex.woff2');
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    let bin = '';
+    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    _fontCss = `@font-face{font-family:'Google Sans Flex';src:url(data:font/woff2;base64,${btoa(bin)}) format('woff2');font-weight:400 800;font-style:normal;}`;
+  } catch (e) {
+    _fontCss = '';
+  }
+  return _fontCss;
+}
+
+async function exportLadderImage() {
   if (!hasLadderData()) return;
   const designer = document.getElementById('designer-name').value.trim() || 'Ladder';
   const dataTitle = formatDateTitle();
   const dataSlug  = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
                       .replace(/\s+/g, '-');
   const radarInner = document.getElementById('radar-svg').innerHTML;
+  const fontCss = await loadFontCss();
 
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
   // Composição: 800x900, fundo bg, nome+data no topo, radar embaixo
   const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="900" viewBox="0 0 800 900">
-    <rect width="100%" height="100%" fill="#F6F6F4"/>
-    <text x="400" y="80" text-anchor="middle" font-family="Inter, sans-serif"
-          font-size="38" font-weight="800" fill="#141414" letter-spacing="-1.5">${esc(designer)}</text>
-    <text x="400" y="115" text-anchor="middle" font-family="Inter, sans-serif"
-          font-size="16" font-weight="500" fill="#888">${esc(dataTitle)}</text>
+    <style>${fontCss}</style>
+    <rect width="100%" height="100%" fill="#E9E4ED"/>
+    <text x="400" y="80" text-anchor="middle" font-family="Google Sans Flex, sans-serif"
+          font-size="38" font-weight="800" fill="#18233C" letter-spacing="-1.5">${esc(designer)}</text>
+    <text x="400" y="115" text-anchor="middle" font-family="Google Sans Flex, sans-serif"
+          font-size="16" font-weight="500" fill="#5E6A88">${esc(dataTitle)}</text>
     <svg x="80" y="160" width="640" height="600" viewBox="-20 0 640 600">${radarInner}</svg>
   </svg>`;
 
@@ -908,7 +923,7 @@ function exportLadderImage() {
     canvas.width  = 1600;
     canvas.height = 1800;
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#F6F6F4';
+    ctx.fillStyle = '#E9E4ED';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     URL.revokeObjectURL(url);

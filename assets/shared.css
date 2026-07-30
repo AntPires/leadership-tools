@@ -1,25 +1,34 @@
 /* ═══════════════════════════════════════════════════════════
-   Leadership Tools — Shared CSS
-   Tokens, app shell, sidebar, header, inputs, buttons, labels
+   Leadership Tools — Shared CSS · Bemobi Wave
+   Tokens, fonte, app shell, sidebar, header, inputs, buttons
    ═══════════════════════════════════════════════════════════ */
 
-/* ── Display font (títulos de card — Landour) ─────────────── */
+/* ── Fonte (Google Sans Flex — variável, self-hosted) ──────── */
 @font-face {
-  font-family: 'Landour';
-  src: url('fonts/Landour-BoldDisplay.woff2') format('woff2');
-  font-weight: 700;
+  font-family: 'Google Sans Flex';
+  src: url('fonts/GoogleSansFlex.woff2') format('woff2');
+  font-weight: 400 800;
   font-style: normal;
   font-display: swap;
 }
 
-/* ── Design tokens ─────────────────────────────────────────── */
+/* ── Design tokens (brandbook Bemobi 2026) ─────────────────── */
 :root {
-  --charcoal: #141414;
-  --light:    #E6E6E6;
-  --bg:       #F6F6F4;
-  --white:    #FFFFFF;
-  --muted:    #7a7a7a;
-  --border:   #EBEBEB;
+  /* neutras — base da Wave */
+  --ink:         #18233C;   /* Cinza Escuro — chrome, textos */
+  --ink-2:       #3D4C6F;   /* Cinza Médio — textos secundários */
+  --gray:        #C6C5C9;   /* Cinza Claro — apoio */
+  --bg:          #E9E4ED;   /* Off-White — fundo geral */
+  --white:       #FFFFFF;
+  --border:      #D9D5DF;   /* borda padrão (derivada do off-white) */
+  --light:       #E4E0EB;   /* chips/fills neutros sobre branco */
+
+  /* primária — acentos */
+  --accent:      #400FF2;   /* Azul Bemobi — CTAs, estados ativos */
+  --accent-deep: #04017B;   /* Azul Médio — hover do primário */
+  --lilac:       #9884FF;   /* Lilás — destaques estruturais */
+  --lilac-light: #D9CDFD;   /* Lilás Claro — bordas de destaque */
+  --lilac-lux:   #F7F7FE;   /* Lilás Luz — fills de destaque */
 }
 
 /* ── Reset ─────────────────────────────────────────────────── */
@@ -27,9 +36,9 @@
 
 html, body {
   height: 100%;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--bg);
-  color: var(--charcoal);
+  color: var(--ink);
   overflow: hidden;
 }
 
@@ -41,7 +50,7 @@ html, body {
 .sidebar {
   width: 60px;
   flex-shrink: 0;
-  background: var(--charcoal);
+  background: var(--ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -92,7 +101,7 @@ html, body {
   left: calc(100% + 10px);
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(20,20,20,0.92);
+  background: rgba(24,35,60,0.94);
   color: #fff;
   font-family: inherit;
   font-size: 11.5px;
@@ -122,18 +131,18 @@ html, body {
 
 .header-left { display: flex; align-items: baseline; gap: 12px; }
 .header h1   { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
-.header-sub  { font-size: 12px; color: #bbb; }
+.header-sub  { font-size: 12px; color: #A5A9B8; }
 
 .header-right       { display: flex; align-items: center; gap: 10px; }
 .header-field       { display: flex; align-items: center; gap: 6px; }
-.header-right label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.header-right label { font-size: 12px; color: var(--ink-2); white-space: nowrap; }
 
 /* ── Inputs ────────────────────────────────────────────────── */
 .input {
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
-  color: var(--charcoal);
+  color: var(--ink);
   background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: 7px;
@@ -142,8 +151,8 @@ html, body {
   transition: border-color 0.15s;
 }
 
-.input:focus        { border-color: var(--charcoal); }
-.input::placeholder { color: #ccc; font-weight: 400; }
+.input:focus        { border-color: var(--accent); }
+.input::placeholder { color: #B3B6C3; font-weight: 400; }
 
 .designer-input { width: 190px; }
 
@@ -159,13 +168,13 @@ html, body {
   white-space: nowrap;
 }
 
-.btn-primary           { background: var(--charcoal); color: var(--white); border: 1.5px solid var(--charcoal); }
-.btn-primary:hover     { background: #000; border-color: #000; }
-.btn-primary:disabled  { background: var(--border); border-color: var(--border); color: #bbb; cursor: not-allowed; pointer-events: none; }
-.btn-primary.copied    { background: var(--white); color: var(--charcoal); border-color: var(--charcoal); }
+.btn-primary           { background: var(--accent); color: var(--white); border: 1.5px solid var(--accent); }
+.btn-primary:hover     { background: var(--accent-deep); border-color: var(--accent-deep); }
+.btn-primary:disabled  { background: var(--border); border-color: var(--border); color: #A5A9B8; cursor: not-allowed; pointer-events: none; }
+.btn-primary.copied    { background: var(--white); color: var(--accent); border-color: var(--accent); }
 
-.btn-secondary          { background: none; color: var(--muted); border: 1.5px solid var(--border); }
-.btn-secondary:hover    { border-color: #aaa; color: var(--charcoal); }
+.btn-secondary          { background: none; color: var(--ink-2); border: 1.5px solid var(--border); }
+.btn-secondary:hover    { border-color: var(--gray); color: var(--ink); }
 .btn-secondary:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 
 /* Slim — variante compacta usada no header (ex: Reiniciar) */
@@ -177,7 +186,7 @@ html, body {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--ink-2);
   margin-bottom: 14px;
   display: block;
 }

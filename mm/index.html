@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leadership Tools — Moving Motivators</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/shared.css">
   <style>
     /* ── BODY ─────────────────────────────────── */
@@ -26,7 +23,7 @@
     .mm-toggle {
       display: inline-flex;
       gap: 3px;
-      background: rgba(20,20,20,0.05);   /* o body já é --bg, então um tom + escuro */
+      background: rgba(24,35,60,0.06);   /* o body já é --bg, então um tom + escuro */
       border-radius: 8px;
       padding: 3px;
     }
@@ -35,7 +32,7 @@
       font-family: inherit;
       font-size: 12.5px;
       font-weight: 600;
-      color: #aaa;
+      color: #9BA0B2;
       background: transparent;
       border: none;
       border-radius: 6px;
@@ -47,14 +44,14 @@
       transition: background 0.12s, color 0.12s, box-shadow 0.12s;
       white-space: nowrap;
     }
-    .mm-step:not(.active):hover { color: var(--muted); }
+    .mm-step:not(.active):hover { color: var(--ink-2); }
     .mm-step.active {
       background: var(--white);
-      color: var(--charcoal);
+      color: var(--ink);
       box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     }
 
-    .mm-instruction { font-size: 13px; color: var(--muted); margin-top: 20px; line-height: 1.6; text-align: center; }
+    .mm-instruction { font-size: 13px; color: var(--ink-2); margin-top: 20px; line-height: 1.6; text-align: center; }
 
     /* ── AÇÕES (exportar) — padrão .ladder-actions ── */
     .mm-actions {
@@ -71,11 +68,11 @@
     .mm-name {
       font-size: 26px;
       font-weight: 800;
-      color: var(--charcoal);
+      color: var(--ink);
       letter-spacing: -0.04em;
       display: none;
     }
-    .mm-date { font-size: 11.5px; color: #bbb; margin-top: 2px; display: none; }
+    .mm-date { font-size: 11.5px; color: #A5A9B8; margin-top: 2px; display: none; }
 
     .mm-view { flex: 1; display: flex; flex-direction: column; min-height: 0; }
     .mm-view[hidden] { display: none; }
@@ -108,14 +105,14 @@
     .mm-card-text { display: flex; flex-direction: column; gap: 8px; } /* Figma: título ↔ desc */
 
     .mm-title {
-      font-family: 'Landour', 'Inter', sans-serif;
+      font-family: inherit;
       font-weight: 700;
       font-size: 18px;
-      letter-spacing: 0.36px;
-      line-height: 1.05;
-      color: #141414;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: var(--card-ink, var(--ink));
     }
-    .mm-desc { font-size: 10px; line-height: 1.2; color: #141414; }
+    .mm-desc { font-size: 10px; line-height: 1.2; color: var(--card-soft, var(--ink)); }
 
     /* Compact (usado no passo 2) */
     .mm-card.compact { min-height: 0; flex: none; padding: 10px; gap: 10px; }
@@ -151,10 +148,10 @@
       align-items: stretch;
       gap: 10px;
     }
-    .scale-slot.drag-over .mm-card { box-shadow: 0 0 0 2px var(--charcoal); }
+    .scale-slot.drag-over .mm-card { box-shadow: 0 0 0 2px var(--accent); }
 
-    .slot-rank { text-align: center; font-size: 15px; font-weight: 700; color: #c4c4c4; }
-    .scale-slot.top5 .slot-rank { color: #43ab73; }
+    .slot-rank { text-align: center; font-size: 15px; font-weight: 700; color: #B3B6C3; }
+    .scale-slot.top5 .slot-rank { color: #400FF2; }
 
     /* TOP 5 bracket */
     .top5-track { display: grid; grid-template-columns: repeat(10, 179px); gap: 14px; }
@@ -164,8 +161,8 @@
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.14em;
-      color: #43ab73;
-      border-top: 2px solid #9adcb0;
+      color: #400FF2;
+      border-top: 2px solid #9884FF;
       padding-top: 6px;
     }
 
@@ -180,13 +177,13 @@
     }
 
     .row-label { display: flex; align-items: center; font-size: 13.5px; font-weight: 700; }
-    .row-label.plus    { color: #2fa968; }
-    .row-label.neutral { color: var(--muted); }
-    .row-label.minus   { color: #e2542f; }
+    .row-label.plus    { color: #400FF2; }
+    .row-label.neutral { color: var(--ink-2); }
+    .row-label.minus   { color: #3D4C6F; }
 
     .grid-cell {
       min-height: 132px;
-      border: 1.5px dashed #d5d5d5;
+      border: 1.5px dashed #C9CCD8;
       border-radius: 9px;
       padding: 6px;
       display: flex;
@@ -194,10 +191,10 @@
       justify-content: center;
       transition: border-color 0.12s, background 0.12s;
     }
-    .grid-cell.plus    { background: #f0faf3; border-color: #cdeed8; }
-    .grid-cell.neutral { background: #fafafa; }
-    .grid-cell.minus   { background: #fdf1ee; border-color: #f5d5cb; }
-    .grid-cell.drag-over { border-color: var(--charcoal); }
+    .grid-cell.plus    { background: #F7F7FE; border-color: #D9CDFD; }
+    .grid-cell.neutral { background: #FBFAFC; }
+    .grid-cell.minus   { background: #EFEDF2; border-color: #D3D0DA; }
+    .grid-cell.drag-over { border-color: var(--accent); }
 
     .mm-grid-caption {
       display: grid;
@@ -212,16 +209,16 @@
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.14em;
-      color: #43ab73;
-      border-top: 2px solid #9adcb0;
+      color: #400FF2;
+      border-top: 2px solid #9884FF;
       padding-top: 5px;
     }
 
     .mm-legends { margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-    .mm-legend { font-size: 12px; display: flex; align-items: center; gap: 8px; color: var(--muted); }
+    .mm-legend { font-size: 12px; display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
     .mm-legend .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-    .mm-legend.plus  .dot { background: #2fa968; }
-    .mm-legend.minus .dot { background: #e2542f; }
+    .mm-legend.plus  .dot { background: #400FF2; }
+    .mm-legend.minus .dot { background: #3D4C6F; }
   </style>
 </head>
 <body>
@@ -230,7 +227,7 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <img src="../assets/logo-bcotransp.svg" alt="Wave" width="28" height="28">
+      <img src="../assets/logo-bemobi.svg" alt="Bemobi Wave" width="26" height="24">
     </div>
     <nav class="sidebar-nav">
       <a class="nav-item" href="../ladder/index.html" data-tooltip="Ladder">
@@ -330,16 +327,16 @@
 
 <script>
 const MOTIVATORS = [
-  { id:'relacoes', name:'Relações', color:'#FF4677', desc:'Valorizo relacionamentos interpessoais, conexão com colegas. Gosto de me sentir parte do time.', bmp:'000000000000000000000000000000000000000000000000000000000000000000111100000001111000001111110000011111100011111111000111111110011111111101111111110011111111111111111110011111111111111111110001111111111111111100000111111111111111000000011111111111110000000001111111111100000000000111111111000000000000011111110000000000000001111100000000000000000111000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000' },
-  { id:'aceitacao', name:'Aceitação', color:'#FA5760', desc:'Ser aceito pelas pessoas ao redor. Ter aprovação sobre quem eu sou, o que faço e o meu impacto.', bmp:'000000000000000000000000111111111111111000000111111111111111000000111111111111011000000111111111111011000000111100000011011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100001110011000000111100001100011000000111100001100011000000111100001100011000000111100001100011000000111100011000011000000111100011000011000000111111111000011000000111111110000011000' },
-  { id:'status', name:'Status', color:'#EF5F3A', desc:'Receber reconhecimento. Que meu cargo, minha reputação ou minha contribuição seja reconhecida.', bmp:'000000000000000000000000000000000000000000000001111111111100000000011111111111110000001111111111111111100001111111111111111100001111111111111111100000001111111111100000000000111111111000000000000011111110000000000000001111100000000000000000111000000000000000000111000000000000000000111000000000000000000111000000000000000011111110000000000000011111110000000000001111111111100000000001111111111100000000000000000000000000000000000000000000000' },
-  { id:'proposito', name:'Propósito', color:'#ECB143', desc:'Fazer um trabalho que signifique algo. Entender como o meu trabalho se conecta com algo maior.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000010000000000000000000111000000000000000000111000000000000000001111100000000000000011111110000000000001111111111100000000111111111111111000000001111111111100000000000011111110000000000000001111100000000000000000111000000000000000000111000000000000000000010000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000' },
-  { id:'influencia', name:'Influência', color:'#B8D94E', desc:'Ter poder sobre o que acontece ao redor. Impactar decisões, ter espaço de ação e influenciar decisões.', bmp:'000000000000000000000000000111111111000000000001111000111100000000111000000000111000000110011111110011000001100111000111001100011001100000001100110011011001111100110110011011011101110110110010010011000110010010010010010010010010010010010011000110010010011011011101110110110011011001111100110110011001100000001100110001100111000111001100000110011111110011000000111000000000111000000001111000111100000000000111111111000000000000000000000000000' },
-  { id:'honra', name:'Honra', color:'#2CB66D', desc:'Sentir orgulho de como trabalho. Ver meus valores pessoais refletidos no meu dia a dia.', bmp:'000000000000000000000000000011111110000000000000011111110000000000000011111110000000000000011111110000000000000000011000000000000000000011000000000000000000011000000000000000011111110000000000000111000111000000000001100000001100000000011001111100110000000011011101110110000000010011000110010000000010010011010010000000010011011110010000000011011101110110000000011001111100110000000001100000001100000000000111000111000000000000011111110000000' },
-  { id:'curiosidade', name:'Curiosidade', color:'#24BCA5', desc:'Ter novas experiências, investigar, aprender e aplicar novos métodos, ideias e processos.', bmp:'000000000000000000000000000000000000000000000011111110000000000000111101111000000000001110000011100000000001100000001100000000001100000001100000000001000000000100000000001100000001100000000001100000001100000000001110000011100000000000111101111000000000000011111111100000000000000000000110000000000000000000011000000000000000000001100000000000000000000110000000000000000000011000000000000000000001100000000000000000000000000000000000000000000' },
-  { id:'maestria', name:'Maestria', color:'#2EAAC6', desc:'Projetos que impulsionem o meu crescimento, sentir-me competente e desafiado pra crescer.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000000000111000000000000000000111000000000000000000111000000000000000111111000000000000000111111000000000000000111111000000000000111111111000000000000111111111000000000000111111111000000000111111111111000000000111111111111000000000111111111111000000111111111111111000000111111111111111000000111111111111111000000000000000000000000000000000000000000000000000000000000000000' },
-  { id:'liberdade', name:'Liberdade', color:'#388BF8', desc:'Ter autonomia em minhas tarefas. Independência para escolher caminhos e tomar decisões.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000011000000000000000000111100000000000000001111110000000000000011111110000000000000111111111000000000001111111111000000000001111111111111110000000111111111111111000000011111111111110000000001111111111100000000111111111110000000011111110000000000000111110000000000000001111100000000000000011111000000000000000000000000000000000000000000000000000000000000000000000000000000' },
-  { id:'ordem', name:'Ordem', color:'#7181FF', desc:'Ter estrutura, regras, previsibilidade. Trabalhar com estabilidade para saber o que esperar.', bmp:'111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111' },
+  { id:'relacoes', name:'Relações', color:'#03021E', desc:'Valorizo relacionamentos interpessoais, conexão com colegas. Gosto de me sentir parte do time.', bmp:'000000000000000000000000000000000000000000000000000000000000000000111100000001111000001111110000011111100011111111000111111110011111111101111111110011111111111111111110011111111111111111110001111111111111111100000111111111111111000000011111111111110000000001111111111100000000000111111111000000000000011111110000000000000001111100000000000000000111000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000' },
+  { id:'aceitacao', name:'Aceitação', color:'#030247', desc:'Ser aceito pelas pessoas ao redor. Ter aprovação sobre quem eu sou, o que faço e o meu impacto.', bmp:'000000000000000000000000111111111111111000000111111111111111000000111111111111011000000111111111111011000000111100000011011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100000110011000000111100001110011000000111100001100011000000111100001100011000000111100001100011000000111100001100011000000111100011000011000000111100011000011000000111111111000011000000111111110000011000' },
+  { id:'status', name:'Status', color:'#040171', desc:'Receber reconhecimento. Que meu cargo, minha reputação ou minha contribuição seja reconhecida.', bmp:'000000000000000000000000000000000000000000000001111111111100000000011111111111110000001111111111111111100001111111111111111100001111111111111111100000001111111111100000000000111111111000000000000011111110000000000000001111100000000000000000111000000000000000000111000000000000000000111000000000000000000111000000000000000011111110000000000000011111110000000000001111111111100000000001111111111100000000000000000000000000000000000000000000000' },
+  { id:'proposito', name:'Propósito', color:'#1806A3', desc:'Fazer um trabalho que signifique algo. Entender como o meu trabalho se conecta com algo maior.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000010000000000000000000111000000000000000000111000000000000000001111100000000000000011111110000000000001111111111100000000111111111111111000000001111111111100000000000011111110000000000000001111100000000000000000111000000000000000000111000000000000000000010000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000' },
+  { id:'influencia', name:'Influência', color:'#330CD8', desc:'Ter poder sobre o que acontece ao redor. Impactar decisões, ter espaço de ação e influenciar decisões.', bmp:'000000000000000000000000000111111111000000000001111000111100000000111000000000111000000110011111110011000001100111000111001100011001100000001100110011011001111100110110011011011101110110110010010011000110010010010010010010010010010010010011000110010010011011011101110110110011011001111100110110011001100000001100110001100111000111001100000110011111110011000000111000000000111000000001111000111100000000000111111111000000000000000000000000000' },
+  { id:'honra', name:'Honra', color:'#5429F5', desc:'Sentir orgulho de como trabalho. Ver meus valores pessoais refletidos no meu dia a dia.', bmp:'000000000000000000000000000011111110000000000000011111110000000000000011111110000000000000011111110000000000000000011000000000000000000011000000000000000000011000000000000000011111110000000000000111000111000000000001100000001100000000011001111100110000000011011101110110000000010011000110010000000010010011010010000000010011011110010000000011011101110110000000011001111100110000000001100000001100000000000111000111000000000000011111110000000' },
+  { id:'curiosidade', name:'Curiosidade', color:'#7B5DFB', desc:'Ter novas experiências, investigar, aprender e aplicar novos métodos, ideias e processos.', bmp:'000000000000000000000000000000000000000000000011111110000000000000111101111000000000001110000011100000000001100000001100000000001100000001100000000001000000000100000000001100000001100000000001100000001100000000001110000011100000000000111101111000000000000011111111100000000000000000000110000000000000000000011000000000000000000001100000000000000000000110000000000000000000011000000000000000000001100000000000000000000000000000000000000000000' },
+  { id:'maestria', name:'Maestria', color:'#9F8CFF', desc:'Projetos que impulsionem o meu crescimento, sentir-me competente e desafiado pra crescer.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000000000111000000000000000000111000000000000000000111000000000000000111111000000000000000111111000000000000000111111000000000000111111111000000000000111111111000000000000111111111000000000111111111111000000000111111111111000000000111111111111000000111111111111111000000111111111111111000000111111111111111000000000000000000000000000000000000000000000000000000000000000000' },
+  { id:'liberdade', name:'Liberdade', color:'#BCADFE', desc:'Ter autonomia em minhas tarefas. Independência para escolher caminhos e tomar decisões.', bmp:'000000000000000000000000000000000000000000000000000000000000000000000000011000000000000000000111100000000000000001111110000000000000011111110000000000000111111111000000000001111111111000000000001111111111111110000000111111111111111000000011111111111110000000001111111111100000000111111111110000000011111110000000000000111110000000000000001111100000000000000011111000000000000000000000000000000000000000000000000000000000000000000000000000000' },
+  { id:'ordem', name:'Ordem', color:'#D9CDFD', desc:'Ter estrutura, regras, previsibilidade. Trabalhar com estabilidade para saber o que esperar.', bmp:'111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111100001000010000100001100001000010000100001100001000010000100001100001000010000100001111111111111111111111' },
 ];
 
 const N = 21;
@@ -353,14 +350,25 @@ const impacto = {};
 let dragId = null;
 let currentStep = 1;
 
+// ── Tinta por luminância ──────────────────────────────────
+// A rampa da marca vai do quase-preto ao lilás claro; cada card
+// deriva tinta de texto e dots conforme sua luminância.
+MOTIVATORS.forEach(m => {
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(m.color.slice(i, i + 2), 16));
+  m._dark   = (0.299 * r + 0.587 * g + 0.114 * b) < 140;
+  m._ink    = m._dark ? '#FFFFFF' : '#03021E';
+  m._soft   = m._dark ? 'rgba(255,255,255,0.82)' : 'rgba(3,2,30,0.78)';
+  m._dotOn  = m._dark ? 'rgba(255,255,255,0.92)' : 'rgba(3,2,30,0.85)';
+  m._dotOff = m._dark ? 'rgba(255,255,255,0.16)' : 'rgba(3,2,30,0.12)';
+});
+
 // ── Ícone (SVG data-uri de pontos) ────────────────────────
 function buildIcon(m) {
-  const on = 'rgba(0,0,0,0.82)', off = 'rgba(0,0,0,0.14)';
   let dots = '';
   for (let r = 0; r < N; r++) {
     for (let c = 0; c < N; c++) {
       const bit = m.bmp[r * N + c] === '1';
-      dots += `<circle cx="${c + 0.5}" cy="${r + 0.5}" r="0.143" fill="${bit ? on : off}"/>`;
+      dots += `<circle cx="${c + 0.5}" cy="${r + 0.5}" r="0.143" fill="${bit ? m._dotOn : m._dotOff}"/>`;
     }
   }
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${N} ${N}'>${dots}</svg>`;
@@ -373,6 +381,8 @@ function makeCard(m, compact) {
   const el = document.createElement('div');
   el.className = 'mm-card' + (compact ? ' compact' : '');
   el.style.background = m.color;
+  el.style.setProperty('--card-ink', m._ink);
+  el.style.setProperty('--card-soft', m._soft);
   el.draggable = true;
   el.dataset.id = m.id;
   el.innerHTML =
@@ -504,7 +514,7 @@ function updateIdentity() {
 // ═══════════════════════════════════════════════════════════
 
 const EXP = { pad: 48, cardW: 179, gap: 14, ip: 16, icon: 147, gapText: 24, gapTitle: 8, lineH: 12, titleH: 19 };
-const FONT_UI = 'Inter, Helvetica, sans-serif';
+const FONT_UI = 'Google Sans Flex, Helvetica, sans-serif';
 
 function formatDateTitle() {
   const s = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
@@ -581,16 +591,16 @@ function wrapText(text, maxW, font) {
   return lines;
 }
 
-// Landour embutida em base64 — sem isso o PNG cai pra fonte do sistema
+// Google Sans Flex embutida em base64 — sem isso o PNG cai pra fonte do sistema
 let _fontCss = null;
 async function loadFontCss() {
   if (_fontCss !== null) return _fontCss;
   try {
-    const res = await fetch('../assets/fonts/Landour-BoldDisplay.woff2');
+    const res = await fetch('../assets/fonts/GoogleSansFlex.woff2');
     const bytes = new Uint8Array(await res.arrayBuffer());
     let bin = '';
     for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-    _fontCss = `@font-face{font-family:'Landour';src:url(data:font/woff2;base64,${btoa(bin)}) format('woff2');font-weight:700;font-style:normal;}`;
+    _fontCss = `@font-face{font-family:'Google Sans Flex';src:url(data:font/woff2;base64,${btoa(bin)}) format('woff2');font-weight:400 800;font-style:normal;}`;
   } catch (e) {
     _fontCss = '';
   }
@@ -601,25 +611,25 @@ function iconSvgAt(m, x, y, size) {
   let dots = '';
   for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
     const bit = m.bmp[r * N + c] === '1';
-    dots += `<circle cx="${c + 0.5}" cy="${r + 0.5}" r="0.143" fill="${bit ? 'rgba(0,0,0,0.82)' : 'rgba(0,0,0,0.14)'}"/>`;
+    dots += `<circle cx="${c + 0.5}" cy="${r + 0.5}" r="0.143" fill="${bit ? m._dotOn : m._dotOff}"/>`;
   }
   return `<svg x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 ${N} ${N}">${dots}</svg>`;
 }
 
 function headSvg(designer, dateT, W) {
   if (!designer) return '';
-  return `<text x="${W/2}" y="${EXP.pad + 30}" text-anchor="middle" font-family="${FONT_UI}" font-weight="800" font-size="30" letter-spacing="-1" fill="#141414">${escXml(designer)}</text>`
-       + `<text x="${W/2}" y="${EXP.pad + 52}" text-anchor="middle" font-family="${FONT_UI}" font-weight="500" font-size="14" fill="#bbb">${escXml(dateT)}</text>`;
+  return `<text x="${W/2}" y="${EXP.pad + 30}" text-anchor="middle" font-family="${FONT_UI}" font-weight="800" font-size="30" letter-spacing="-1" fill="#18233C">${escXml(designer)}</text>`
+       + `<text x="${W/2}" y="${EXP.pad + 52}" text-anchor="middle" font-family="${FONT_UI}" font-weight="500" font-size="14" fill="#A5A9B8">${escXml(dateT)}</text>`;
 }
 
 function bracketSvg(x, w, y) {
-  return `<line x1="${x}" y1="${y}" x2="${x + w}" y2="${y}" stroke="#9adcb0" stroke-width="2"/>`
-       + `<text x="${x + w/2}" y="${y + 19}" text-anchor="middle" font-family="${FONT_UI}" font-weight="700" font-size="11" letter-spacing="1.5" fill="#43ab73">TOP 5</text>`;
+  return `<line x1="${x}" y1="${y}" x2="${x + w}" y2="${y}" stroke="#9884FF" stroke-width="2"/>`
+       + `<text x="${x + w/2}" y="${y + 19}" text-anchor="middle" font-family="${FONT_UI}" font-weight="700" font-size="11" letter-spacing="1.5" fill="#400FF2">TOP 5</text>`;
 }
 
 function wrapSvg(inner, W, H, fontCss) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`
-       + `<style>${fontCss}</style><rect width="100%" height="100%" fill="#F6F6F4"/>${inner}</svg>`;
+       + `<style>${fontCss}</style><rect width="100%" height="100%" fill="#E9E4ED"/>${inner}</svg>`;
 }
 
 function fullCardSvg(m, x, y, h) {
@@ -629,11 +639,11 @@ function fullCardSvg(m, x, y, h) {
   const lines = wrapText(m.desc, EXP.cardW - EXP.ip * 2, `400 10px ${FONT_UI}`);
   let desc = '';
   lines.forEach((ln, i) => {
-    desc += `<text x="${tx}" y="${descTop + 9 + i * EXP.lineH}" font-family="${FONT_UI}" font-size="10" fill="#141414">${escXml(ln)}</text>`;
+    desc += `<text x="${tx}" y="${descTop + 9 + i * EXP.lineH}" font-family="${FONT_UI}" font-size="10" fill="${m._soft}">${escXml(ln)}</text>`;
   });
   return `<rect x="${x}" y="${y}" width="${EXP.cardW}" height="${h}" rx="8" fill="${m.color}"/>`
        + iconSvgAt(m, tx, y + EXP.ip, EXP.icon)
-       + `<text x="${tx}" y="${textTop + 14}" font-family="Landour, ${FONT_UI}" font-weight="700" font-size="18" letter-spacing="0.36" fill="#141414">${escXml(m.name)}</text>`
+       + `<text x="${tx}" y="${textTop + 14}" font-family="${FONT_UI}" font-weight="700" font-size="18" letter-spacing="-0.2" fill="${m._ink}">${escXml(m.name)}</text>`
        + desc;
 }
 
@@ -644,7 +654,7 @@ function compactCardSvg(m, x, y, w, h) {
   const ix = x + (w - size) / 2;
   return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${m.color}"/>`
        + iconSvgAt(m, ix, y + p, size)
-       + `<text x="${x + w/2}" y="${y + h - p}" text-anchor="middle" font-family="Landour, ${FONT_UI}" font-weight="700" font-size="13" fill="#141414">${escXml(m.name)}</text>`;
+       + `<text x="${x + w/2}" y="${y + h - p}" text-anchor="middle" font-family="${FONT_UI}" font-weight="700" font-size="13" fill="${m._ink}">${escXml(m.name)}</text>`;
 }
 
 function buildStep1Svg(designer, dateT, fontCss) {
@@ -662,7 +672,7 @@ function buildStep1Svg(designer, dateT, fontCss) {
   positions.forEach((id, i) => {
     const x = EXP.pad + i * (EXP.cardW + EXP.gap);
     body += fullCardSvg(byId[id], x, cardsY, cardH);
-    body += `<text x="${x + EXP.cardW/2}" y="${rankY}" text-anchor="middle" font-family="${FONT_UI}" font-weight="700" font-size="15" fill="${i >= 5 ? '#43ab73' : '#c4c4c4'}">${LABELS[i]}</text>`;
+    body += `<text x="${x + EXP.cardW/2}" y="${rankY}" text-anchor="middle" font-family="${FONT_UI}" font-weight="700" font-size="15" fill="${i >= 5 ? '#400FF2' : '#B3B6C3'}">${LABELS[i]}</text>`;
   });
   body += bracketSvg(EXP.pad + 5 * (EXP.cardW + EXP.gap), 5 * EXP.cardW + 4 * EXP.gap, brY);
 
@@ -678,9 +688,9 @@ function buildStep2Svg(designer, dateT, fontCss) {
   const H = brY + 30 + EXP.pad;
 
   const rows = [
-    { v: 1,  label: '+1',      color: '#2fa968', fill: '#f0faf3', stroke: '#cdeed8' },
-    { v: 0,  label: 'Neutral', color: '#7a7a7a', fill: '#fafafa', stroke: '#d5d5d5' },
-    { v: -1, label: '−1',      color: '#e2542f', fill: '#fdf1ee', stroke: '#f5d5cb' },
+    { v: 1,  label: '+1',      color: '#400FF2', fill: '#F7F7FE', stroke: '#D9CDFD' },
+    { v: 0,  label: 'Neutral', color: '#9BA0B2', fill: '#FBFAFC', stroke: '#C9CCD8' },
+    { v: -1, label: '−1',      color: '#3D4C6F', fill: '#EFEDF2', stroke: '#D3D0DA' },
   ];
 
   let body = '';
@@ -706,7 +716,7 @@ function rasterize(svgStr, W, H, filename) {
     const canvas = document.createElement('canvas');
     canvas.width = W * 2; canvas.height = H * 2;      // 2x p/ retina
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#F6F6F4';
+    ctx.fillStyle = '#E9E4ED';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     URL.revokeObjectURL(url);
